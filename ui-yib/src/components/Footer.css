@@ -1,0 +1,97 @@
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 10px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    bottom: 0px;
+    width: 95%;
+    overflow: hidden; /* Ensures content stays within the footer */
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.footer-section {
+    max-width: 250px;
+}
+
+    .footer-section h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 14px;
+        color: #ddd;
+        text-decoration: none;
+        line-height: 1.6;
+    }
+
+        .footer-section a:hover {
+            text-decoration: underline;
+            color: #fff;
+        }
+
+.footer-bottom {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+    .footer-bottom a {
+        color: #ddd;
+        text-decoration: none;
+    }
+
+        .footer-bottom a:hover {
+            text-decoration: underline;
+            color: #fff;
+        }
+
+.social-links a {
+    margin-right: 10px;
+    color: #ddd;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+    .social-links a:hover {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+/* Media Query for Small Screens */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: row; /* Avoids column layout */
+        justify-content: center; /* Centers content */
+        align-items: center;
+        gap: 10px;
+        max-height: 130px; /* Restricts height growth */
+        overflow: hidden; /* Ensures no overflow */
+    }
+
+    .footer-section {
+        max-width: 150px; /* Reduces the width of sections */
+    }
+
+        .footer-section h3 {
+            font-size: 16px; /* Adjusts font size for smaller screens */
+        }
+
+        .footer-section p,
+        .footer-section a {
+            font-size: 12px; /* Adjusts font size for readability */
+        }
+
+    .footer-bottom {
+        font-size: 12px; /* Adjusts copyright text size */
+    }
+}
