@@ -1,0 +1,53 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    padding-top: 0; /* Remove top padding if it's causing spacing */
+    margin-top: 100px;home_box
+}
+
+.home_containerbox {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.home_box {
+    flex: 1 1 calc(33.33% - 20px);
+    max-width: calc(33.33% - 20px);
+    background-color: #f8f8f8;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border-radius: 10px;
+    min-height:200px;
+}
+
+
+@media (max-width: 768px) {
+
+    .home_containerbox {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Ensure elements are centered */
+    }
+    .home_box {
+        flex: 1 1 100%;
+        max-width: 100%;
+        width: 75%;
+    }
+}
+
+.home_carousel {
+    width: 100%;
+    max-width: 800px;
+}
+
+.legend {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
