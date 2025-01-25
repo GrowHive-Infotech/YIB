@@ -1,12 +1,11 @@
 .footer {
     background-color: #333;
     color: white;
-    padding: 20px 10px;
     text-align: center;
     font-family: Arial, sans-serif;
     position: absolute;
     bottom: 0px;
-    width: 95%;
+    width: 100%;
     overflow: hidden; /* Ensures content stays within the footer */
 }
 
@@ -70,10 +69,10 @@
 /* Media Query for Small Screens */
 @media (max-width: 768px) {
     .footer-container {
+        width: 95%;
         flex-direction: row; /* Avoids column layout */
         justify-content: center; /* Centers content */
         align-items: center;
-        gap: 10px;
         max-height: 130px; /* Restricts height growth */
         overflow: hidden; /* Ensures no overflow */
     }
@@ -92,6 +91,6 @@
         }
 
     .footer-bottom {
-        font-size: 12px; /* Adjusts copyright text size */
+        font-size: 8px; /* Adjusts copyright text size */
     }
 }
