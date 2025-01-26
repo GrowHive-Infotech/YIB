@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./SignUp.css"; // CSS file for styling
+import { makeApiCalls } from "../Apicalls/apicalls";
 
 const SignUpModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const [step, setStep] = useState("signup"); // Tracks the current step: signup or otp
@@ -18,6 +19,7 @@ const SignUpModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         // Simulate sending OTP
         alert("OTP sent to your email!");
+        makeApiCalls();
         setStep("otp");
     };
 
