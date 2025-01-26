@@ -6,6 +6,8 @@ using Project_YourInterviewBuddy.com.Repositories;
 using System.Reflection;
 using System.Runtime;
 using Microsoft.Extensions.Configuration;
+using Project_YourInterviewBuddy.com.OTPService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,8 +24,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMemoryCache();  // Add in-memory cache
+builder.Services.AddScoped<IOTPService,OTPService>();
 builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<IPostProvider, PostProvider>();
+builder.Services.AddTransient<IUserRepo, UserRepo>();
+builder.Services.AddTransient<IUserProvider, UserProvider>();
 IConfiguration configuration = builder.Configuration;
 var settingValue = configuration["MySettings:CockroachDb"];
 Console.WriteLine($"Setting Value: {settingValue}");

@@ -7,6 +7,8 @@ import TechnologiesPage from './TechnologiesPage';
 import TechnologyDetails from './TechnologyDetails';
 import JobBoard from './JobBoard';
 import ServicesPage from './Services';
+import LoginModal from './LoginPage';
+import SignUpModal from './SignUpModal';
 
 // Example components for different routes
 const Home = () => <div>Home Page</div>;
@@ -15,11 +17,30 @@ const Services = () => <div>Services Page</div>;
 
 const ToolBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const [isModalOpen, SetIsModalOpen] = useState(false);
+    const [isSignupModalOpen, SetisSignUpModalOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const modalopen = () => {
+        setIsMenuOpen(!isMenuOpen);
+        SetIsModalOpen(true);
+    }
+
+    const closeModal = () => {
+        console.log("modal closing request");
+        SetIsModalOpen(false);
+    }
+
+    const Signupopen = () => {
+        setIsMenuOpen(!isMenuOpen);
+        SetisSignUpModalOpen(true);
+    }
+    const closeSignup = () => {
+        console.log("modal closing request");
+        SetisSignUpModalOpen(false);
+    }
     return (
         <Router>
             {/* Toolbar with navigation buttons */}
@@ -34,8 +55,8 @@ const ToolBar = () => {
                     <Link to="/services" className="nav-button" onClick={() => setIsMenuOpen(false)}>Services</Link>
                     <Link to="/tech" className="nav-button" onClick={() => setIsMenuOpen(false)}>Technologies</Link>
                     <Link to="/jb" className="nav-button" onClick={() => setIsMenuOpen(false)}>Job Board</Link>
-                    <Link to="/login" className="nav-button" onClick={() => setIsMenuOpen(false)}>Login</Link>
-                    <Link to="/signup" className="nav-button" onClick={() => setIsMenuOpen(false)}>Signup</Link>
+                    <Link to="/" className="nav-button" onClick={modalopen}>Login</Link>
+                    <Link to="/" className="nav-button" onClick={Signupopen}>Signup</Link>
                 </div>
             </div>
 
@@ -46,8 +67,10 @@ const ToolBar = () => {
                 <Route path="/services" element={<ServicesPage />} />
                 <Route path="/tech" element={<TechnologiesPage />} />
                 <Route path="/technology/:techName" element={<TechnologyDetails match={"c#"} />} />
-                <Route path="/jb" element={<JobBoard/>} />
+                <Route path="/jb" element={<JobBoard />} />
             </Routes>
+            {isModalOpen && <LoginModal isOpen={isModalOpen} onClose={closeModal} />}
+            {isSignupModalOpen && <SignUpModal onClose={closeSignup} />}
         </Router>
     );
 };
