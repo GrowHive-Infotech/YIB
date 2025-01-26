@@ -8,6 +8,7 @@ import TechnologyDetails from './TechnologyDetails';
 import JobBoard from './JobBoard';
 import ServicesPage from './Services';
 import LoginModal from './LoginPage';
+import SignUpModal from './SignUpModal';
 
 // Example components for different routes
 const Home = () => <div>Home Page</div>;
@@ -17,7 +18,7 @@ const Services = () => <div>Services Page</div>;
 const ToolBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isModalOpen, SetIsModalOpen] = useState(false);
-
+    const [isSignupModalOpen, SetisSignUpModalOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -32,6 +33,14 @@ const ToolBar = () => {
         SetIsModalOpen(false);
     }
 
+    const Signupopen = () => {
+        setIsMenuOpen(!isMenuOpen);
+        SetisSignUpModalOpen(true);
+    }
+    const closeSignup = () => {
+        console.log("modal closing request");
+        SetisSignUpModalOpen(false);
+    }
     return (
         <Router>
             {/* Toolbar with navigation buttons */}
@@ -47,7 +56,7 @@ const ToolBar = () => {
                     <Link to="/tech" className="nav-button" onClick={() => setIsMenuOpen(false)}>Technologies</Link>
                     <Link to="/jb" className="nav-button" onClick={() => setIsMenuOpen(false)}>Job Board</Link>
                     <Link to="/" className="nav-button" onClick={modalopen}>Login</Link>
-                    <Link to="/signup" className="nav-button" onClick={() => setIsMenuOpen(false)}>Signup</Link>
+                    <Link to="/" className="nav-button" onClick={Signupopen}>Signup</Link>
                 </div>
             </div>
 
@@ -58,9 +67,10 @@ const ToolBar = () => {
                 <Route path="/services" element={<ServicesPage />} />
                 <Route path="/tech" element={<TechnologiesPage />} />
                 <Route path="/technology/:techName" element={<TechnologyDetails match={"c#"} />} />
-                <Route path="/jb" element={<JobBoard/>} />
+                <Route path="/jb" element={<JobBoard />} />
             </Routes>
             {isModalOpen && <LoginModal isOpen={isModalOpen} onClose={closeModal} />}
+            {isSignupModalOpen && <SignUpModal onClose={closeSignup} />}
         </Router>
     );
 };
