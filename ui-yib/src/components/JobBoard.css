@@ -1,47 +1,97 @@
 .job-board-container {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
-    color: #333;
+    padding: 20px;
+    text-align: center;
 }
 
-.search-section {
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 22px;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+input:checked + .slider {
+    background-color: #4CAF50;
+}
+
+    input:checked + .slider:before {
+        transform: translateX(18px);
+    }
+
+.resume-section {
+    margin: 20px 0;
+}
+
+    .resume-section p {
+        font-size: 14px;
+        color: gray;
+    }
+
+.filters {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    margin-bottom: 30px;
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-.upload-resume label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
+    .filters label {
+        display: flex;
+        flex-direction: column;
+        font-weight: bold;
+    }
 
-.filters label {
-    display: block;
-    margin-bottom: 15px;
-}
-
-.filters input {
-    margin-left: 10px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+    .filters input {
+        padding: 8px;
+        font-size: 16px;
+    }
 
 .search-button {
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
     .search-button:hover {
@@ -54,30 +104,27 @@
 
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
 }
 
 .job-card {
-    background-color: white;
+    border: 1px solid #ddd;
     padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: left;
 }
 
     .job-card h3 {
-        margin: 0;
-        font-size: 1.5rem;
-        color: #007BFF;
+        margin-bottom: 5px;
     }
 
 .apply-button {
     margin-top: 10px;
-    padding: 10px;
+    padding: 8px 12px;
     background-color: #28a745;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -85,12 +132,12 @@
         background-color: #218838;
     }
 
-@media (max-width: 768px) {
-    .search-section {
-        gap: 10px;
+@media (max-width: 600px) {
+    .filters {
+        flex-direction: column;
     }
 
-    .filters label {
-        font-size: 0.9rem;
+    .results-grid {
+        grid-template-columns: 1fr;
     }
 }
