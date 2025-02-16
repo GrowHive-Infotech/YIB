@@ -9,17 +9,24 @@ using Project_YourInterviewBuddy.com.Models;
 [ApiController]
 public class JobController : ControllerBase
 {
+    private readonly IConfiguration _configuration;
+
+    public JobController(IConfiguration config)
+    {
+        _configuration = config;
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> PostJob([FromBody] Job job)
     {
-        var _connectionString = "Host=wise-mumbai-7178.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=master-db;Password=C78QCSTTn9ZwDjJdQYD2Jg;SSL Mode=VerifyFull";
+        var connectionString = _configuration["MySettings:CockroachDb"];
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
         try
         {
-            using (var conn = new NpgsqlConnection(_connectionString))
+            using (var conn = new NpgsqlConnection(connectionString))
             {
                 await conn.OpenAsync();
                 string query = @"
