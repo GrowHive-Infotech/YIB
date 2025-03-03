@@ -7,6 +7,6 @@ namespace Project_YourInterviewBuddy.com.Providers
     {
         Task<bool> createuser(Users user);
 
-        Task<bool> login(InputUser input);
+        Task<bool> login(LoginModal input);
     }
 }

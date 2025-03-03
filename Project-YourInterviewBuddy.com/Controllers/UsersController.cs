@@ -28,15 +28,16 @@ namespace Project_YourInterviewBuddy.com.Controllers
                 Email = userDto.Email,
                 Password = userDto.Password,
                 Role = "User",
-                is_active = true
+                is_active = true,
+                Name=userDto.UserName,
             };
             var resp= await _userprovider.createuser(user);
             return Ok(resp);
         }
 
         [HttpPost]
-        [Route("/login")]
-        public async Task<IActionResult> LoginUser([FromBody] InputUser userDto)
+        [Route("login")]
+        public async Task<IActionResult> LoginUser([FromBody] LoginModal userDto)
         {
             if (!ModelState.IsValid)
             { 

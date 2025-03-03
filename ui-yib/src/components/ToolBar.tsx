@@ -9,58 +9,61 @@ import JobBoard from './JobBoard';
 import ServicesPage from './Services';
 import LoginModal from './LoginPage';
 import SignUpModal from './SignUpModal';
-
-// Example components for different routes
-const Home = () => <div>Home Page</div>;
-const About = () => <div>About Page</div>;
-const Services = () => <div>Services Page</div>;
+import { useAuth } from './AuthContext';
 
 const ToolBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isModalOpen, SetIsModalOpen] = useState(false);
     const [isSignupModalOpen, SetisSignUpModalOpen] = useState(false);
+    const { user, logout } = useAuth();
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
     const modalopen = () => {
-        setIsMenuOpen(!isMenuOpen);
+        setIsMenuOpen(false);
         SetIsModalOpen(true);
-    }
+    };
 
     const closeModal = () => {
-        console.log("modal closing request");
         SetIsModalOpen(false);
-    }
+    };
 
     const Signupopen = () => {
-        setIsMenuOpen(!isMenuOpen);
+        setIsMenuOpen(false);
         SetisSignUpModalOpen(true);
-    }
+    };
+
     const closeSignup = () => {
-        console.log("modal closing request");
         SetisSignUpModalOpen(false);
-    }
+    };
+
     return (
         <Router>
-            {/* Toolbar with navigation buttons */}
             <div className="toolbar_box">
                 <h2 className="logo">YourInterviewBuddy</h2>
-                <div className="hamburger" onClick={toggleMenu}>
-                    ☰
-                </div>
+                <div className="hamburger" onClick={toggleMenu}>☰</div>
                 <div className={`items ${isMenuOpen ? 'open' : ''}`}>
                     <Link to="/" className="nav-button" onClick={() => setIsMenuOpen(false)}>Home</Link>
                     <Link to="/about" className="nav-button" onClick={() => setIsMenuOpen(false)}>About</Link>
                     <Link to="/services" className="nav-button" onClick={() => setIsMenuOpen(false)}>Services</Link>
                     <Link to="/tech" className="nav-button" onClick={() => setIsMenuOpen(false)}>Technologies</Link>
                     <Link to="/jb" className="nav-button" onClick={() => setIsMenuOpen(false)}>Job Board</Link>
-                    <Link to="/" className="nav-button" onClick={modalopen}>Login</Link>
-                    <Link to="/" className="nav-button" onClick={Signupopen}>Signup</Link>
+                    {user ? (
+                        <>
+                            <span className="nav-button">{user.username}</span>
+                            <button className="nav-button" onClick={logout}>Logout</button>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/" className="nav-button" onClick={modalopen}>Login</Link>
+                            <Link to="/" className="nav-button" onClick={Signupopen}>Signup</Link>
+                        </>
+                    )}
                 </div>
             </div>
 
-            {/* Routes */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<AboutPage />} />

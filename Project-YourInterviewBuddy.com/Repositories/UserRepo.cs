@@ -16,13 +16,13 @@ namespace Project_YourInterviewBuddy.com.Repositories
         }
         public async Task<Boolean> createUser(Users user)
         {
-            var connectionString = _configuration["MySettings:NeonDb"];
+            var connectionString = _configuration["MySettings:CockroachDb"];
             using (var conn = new NpgsqlConnection(connectionString))
             {
                 conn.Open();
                 var query = @"
-                        INSERT INTO users (email, password, role, is_active, created_at, updated_at)
-                        VALUES (@Email, @Password, @Role, @is_active, NOW(), NOW());
+                        INSERT INTO users (email, password, role, is_active, created_at, updated_at,name)
+                        VALUES (@Email, @Password, @Role, @is_active, NOW(), NOW(),@Name);
                     ";
 
                 using (var command = new NpgsqlCommand(query, conn))
@@ -31,14 +31,14 @@ namespace Project_YourInterviewBuddy.com.Repositories
                     command.Parameters.AddWithValue("@Password", user.Password);
                     command.Parameters.AddWithValue("@Role", user.Role);
                     command.Parameters.AddWithValue("@is_active", user.is_active);
-
+                    command.Parameters.AddWithValue("@Name", user.Name);
                     var rowsAffected = await command.ExecuteNonQueryAsync();
                     return true;
                 }
             }
         }
 
-        public async Task<bool> Login(InputUser user)
+        public async Task<bool> Login(LoginModal user)
         {
             var connectionString = _configuration["MySettings:NeonDb"];
             using (var conn = new NpgsqlConnection(connectionString))

@@ -15,6 +15,10 @@ namespace Project_YourInterviewBuddy.com.Models
         public string Email { get; set; }
 
         [Required]
+
+        public string Name { get; set; }
+
+        [Required]
         public string Password { get; set; } // Ensure this is hashed!
 
         [Required]
@@ -29,6 +33,7 @@ namespace Project_YourInterviewBuddy.com.Models
 
         [Column(TypeName = "timestamp")]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
     }
 
 }
