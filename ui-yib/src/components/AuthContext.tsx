@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface AuthContextType {
     user: any;
@@ -11,10 +11,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState(() => {
         const storedUser = localStorage.getItem("user");
-        var user = storedUser ? JSON.parse(storedUser) : null;
-        console.log("current user is", user);
-        return user;
+        return storedUser ? JSON.parse(storedUser) : null;
     });
+
+    useEffect(() => {
+        console.log("Auth state updated:", user);
+    }, [user]);
+
+    const login = (userData: any) => {
+        setUser({ ...userData }); // Ensure state updates
+        localStorage.setItem("user", JSON.stringify(userData));
+    };
 
     const logout = () => {
         setUser(null);
@@ -22,7 +29,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, logout }}>
+        <AuthContext.Provider value={{ user, setUser: login, logout }}>
             {children}
         </AuthContext.Provider>
     );

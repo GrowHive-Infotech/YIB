@@ -20,16 +20,18 @@ public class JobsController : ControllerBase
         _httpClient = httpClient;
     }
 
-    [HttpPost("match-jobs")]
-    public async Task<IActionResult> MatchJobs([FromBody] JobMatchRequest request)
+    [HttpGet("match-jobs")]
+    public async Task<IActionResult> MatchJobs(string email)
     {
+        ResumeParser rp = new ResumeParser();
+        var request = rp.GetAllInformation(email);
         var jsonContent = new StringContent(
             JsonSerializer.Serialize(request),
             Encoding.UTF8,
             "application/json"
         );
 
-        var response = await _httpClient.PostAsync("http://localhost:8001/match-resume/", jsonContent);
+        var response = await _httpClient.PostAsync("http://localhost:8000/match-resume/", jsonContent);
 
         if (!response.IsSuccessStatusCode)
         {

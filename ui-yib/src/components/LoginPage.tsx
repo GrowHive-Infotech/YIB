@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
-
+import "./LoginPage.css";
 interface LoginModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -57,8 +57,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
             if (response.status === 200) {
                 setMessage("Login successful!");
-                setUser(response.data);
-                localStorage.setItem("user", JSON.stringify(response.data));
+                console.log("user is", response.data);
+                setUser(response.data); // Store user in context
+                localStorage.setItem("user", JSON.stringify(response.data)); // Store user in local storage
                 setTimeout(() => onClose(), 1500);
             }
         } catch (error: any) {
@@ -72,75 +73,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="overlay">
-            <style>
-                {`
-          .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-          }
-          .modal {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            width: 400px;
-            text-align: center;
-            position: relative;
-          }
-          .message {
-            color: green;
-            margin-bottom: 10px;
-          }
-          .error {
-            color: red;
-            font-size: 12px;
-            margin: 5px 0;
-          }
-          .input {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-            display: block;
-          }
-          .input:focus {
-            border: 1px solid #007BFF;
-          }
-          .submit-btn {
-            background: #007BFF;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-          }
-          .submit-btn:disabled {
-            background: #ccc;
-          }
-          .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: red;
-            color: white;
-            border: none;
-            padding: 5px;
-            border-radius: 50%;
-            cursor: pointer;
-          }
-        `}
-            </style>
             <div className="modal">
                 <h2>Login</h2>
                 {message && <p className="message">{message}</p>}

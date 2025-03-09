@@ -51,7 +51,6 @@ public class ResumeController : ControllerBase
 
             // Generate public URL
             string fileUrl = storage.From(bucketName).GetPublicUrl(filePath);
-
             var parameters = new { p_email = request.Email, p_resume_url = fileUrl };
             await supabase.Rpc("insert_resume", parameters);
 

@@ -53,7 +53,7 @@ const ToolBar = () => {
                     {user ? (
                         <>
                             <span className="nav-button">{user.username}</span>
-                            <button className="nav-button" onClick={logout}>Logout</button>
+                            <button className="nav-button" onClick={() => { logout(); setIsMenuOpen(false); }}>Logout</button>
                         </>
                     ) : (
                         <>
