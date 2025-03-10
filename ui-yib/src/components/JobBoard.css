@@ -1,14 +1,32 @@
-.job-board-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
 }
 
+.job-board-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Toggle Switch */
 .toggle-switch {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -16,8 +34,8 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 40px;
-    height: 22px;
+    width: 60px;
+    height: 34px;
 }
 
     .switch input {
@@ -34,110 +52,113 @@
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    transition: .4s;
-    border-radius: 22px;
+    transition: 0.4s;
+    border-radius: 34px;
 }
 
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 3px;
-        bottom: 3px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
+    .slider.round {
+        border-radius: 34px;
     }
 
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
 input:checked + .slider {
-    background-color: #4CAF50;
+    background-color: #2196f3;
 }
 
     input:checked + .slider:before {
-        transform: translateX(18px);
+        transform: translateX(26px);
     }
 
-.resume-section {
-    margin: 20px 0;
-}
-
-    .resume-section p {
-        font-size: 14px;
-        color: gray;
-    }
-
-.filters {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+/* Resume and Filters Section */
+.resume-section, .filters-section {
+    width: 100%;
+    max-width: 500px;
     margin-bottom: 20px;
 }
 
-    .filters label {
-        display: flex;
-        flex-direction: column;
-        font-weight: bold;
+    .resume-section label, .filters-section label {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        display: block;
     }
 
-    .filters input {
-        padding: 8px;
-        font-size: 16px;
+    .resume-section input, .filters-section input, .filters-section select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
     }
 
-.search-button {
+/* Buttons */
+.submit-button, .search-jobs-button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #2196f3;
     color: white;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1rem;
+    margin-bottom: 20px;
 }
 
-    .search-button:hover {
-        background-color: #0056b3;
+    .submit-button:hover, .search-jobs-button:hover {
+        background-color: #1976d2;
     }
 
-.results-section {
+/* Job Results */
+.job-results {
+    width: 100%;
     margin-top: 20px;
 }
 
-.results-grid {
+.job-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
 }
 
 .job-card {
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 5px;
-    text-align: left;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
     .job-card h3 {
-        margin-bottom: 5px;
+        margin: 0;
+        font-size: 1.2rem;
+        color: #333;
     }
 
-.apply-button {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
+    .job-card p {
+        margin: 10px 0 0;
+        color: #666;
+    }
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-    .apply-button:hover {
-        background-color: #218838;
+    .pagination button {
+        padding: 10px 20px;
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
     }
 
-@media (max-width: 600px) {
-    .filters {
-        flex-direction: column;
-    }
-
-    .results-grid {
-        grid-template-columns: 1fr;
-    }
-}
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }

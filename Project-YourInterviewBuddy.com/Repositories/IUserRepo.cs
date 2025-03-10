@@ -6,6 +6,6 @@ namespace Project_YourInterviewBuddy.com.Repositories
     public interface IUserRepo
     {
         Task<bool> createUser(Users user);
-        Task<bool> Login(LoginModal user);
+        UserOutput? Login(LoginModal user);
     }
 }

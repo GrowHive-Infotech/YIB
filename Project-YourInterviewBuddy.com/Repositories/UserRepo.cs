@@ -38,23 +38,42 @@ namespace Project_YourInterviewBuddy.com.Repositories
             }
         }
 
-        public async Task<bool> Login(LoginModal user)
+        public UserOutput? Login(LoginModal user)
         {
-            var connectionString = _configuration["MySettings:NeonDb"];
+            // this is not working
+            UserOutput userOutput = new UserOutput();
+            if (user == null || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Password))
+            {
+                throw new ArgumentException("User credentials cannot be null or empty");
+            }
+
+            var connectionString = _configuration["MySettings:CockroachDb"];
+
             using (var conn = new NpgsqlConnection(connectionString))
             {
                 conn.Open();
 
-                var query = "SELECT COUNT(*) FROM users WHERE email = @Email AND password = @Password;";
+                var query = "SELECT name FROM users WHERE email = @Email and password =@password;";
                 using var command = new NpgsqlCommand(query, conn);
                 command.Parameters.AddWithValue("@Email", user.Email);
-                command.Parameters.AddWithValue("@Password", user.Password);
-
-                // Execute the query and retrieve the count
-                var count = (long)await command.ExecuteScalarAsync();
-
-                return count > 0;
+                command.Parameters.AddWithValue("@password", user.Password);
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read()) // Ensure there's at least one row
+                    {
+                        string name = reader["name"].ToString();
+                        userOutput.Name = name;
+                        userOutput.Email = user.Email;
+                        return userOutput;
+                    }
+                    else
+                    {
+                        // Handle the case where no user is found
+                        throw new UnauthorizedAccessException("Invalid email or password.");
+                    }
+                }
             }
+
         }
     }
 }

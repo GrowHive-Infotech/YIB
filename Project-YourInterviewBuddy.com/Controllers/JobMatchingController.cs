@@ -41,7 +41,7 @@ public class JobsController : ControllerBase
         var responseText = await response.Content.ReadAsStringAsync();
         var options = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = false
         };
         
         JobMatchResponse match_response = JsonSerializer.Deserialize<JobMatchResponse>(responseText, options); 

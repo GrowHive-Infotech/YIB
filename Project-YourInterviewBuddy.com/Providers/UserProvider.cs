@@ -15,7 +15,7 @@ namespace Project_YourInterviewBuddy.com.Providers
             return await _userRepo.createUser(user);
         }
 
-        public Task<bool> login(LoginModal input)
+        public UserOutput? login(LoginModal input)
         {
             return _userRepo.Login(input);
         }

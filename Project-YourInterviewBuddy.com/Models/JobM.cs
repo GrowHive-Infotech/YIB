@@ -55,7 +55,7 @@ public class MatchedJob
         [JsonPropertyName("job_title")]
         public string JobTitle { get; set; } // Job title from API response
 
-        [JsonPropertyName("company")]
+        [JsonPropertyName("company_name")]
         public string Company { get; set; } // Company name from API response
         [JsonPropertyName("skill_match")]
         public float SkillMatch { get; set; }

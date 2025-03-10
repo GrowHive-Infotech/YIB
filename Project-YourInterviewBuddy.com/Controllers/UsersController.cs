@@ -44,8 +44,12 @@ namespace Project_YourInterviewBuddy.com.Controllers
                 return BadRequest(ModelState);
             }
 
-            var resp = await _userprovider.login(userDto);
-            return Ok(resp);
+            var resp = _userprovider.login(userDto);
+            if(resp!=null)
+            {
+                return Ok(resp);
+            }
+            return BadRequest(ModelState);
         }
     }
 }
