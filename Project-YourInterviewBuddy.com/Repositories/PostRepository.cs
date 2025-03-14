@@ -51,6 +51,8 @@ namespace Project_YourInterviewBuddy.com.Repositories
 
         public List<Post> GetPost()
         {
+            
+            
             List<Post> result = new List<Post>();
             var connectionString = _configuration["MySettings:CockroachDb"];
             using (var conn = new NpgsqlConnection(connectionString))
@@ -63,14 +65,21 @@ namespace Project_YourInterviewBuddy.com.Repositories
                     {
                         Console.WriteLine(reader["Id"]);
                         Post posts = new Post();
-                        posts.Id = reader["Id"] != DBNull.Value ? Convert.ToInt64(reader["Id"]) : 0;
+                        posts.Id = reader["Id"] != DBNull.Value ? (Guid)reader["Id"] : Guid.Empty; ;
                         posts.Title = reader["Title"]?.ToString() ?? string.Empty;
-                        posts.Description = reader["Description"]?.ToString() ?? string.Empty;
+                        posts.Description = reader["content"]?.ToString() ?? string.Empty;
                         posts.Author = reader["Author"]?.ToString() ?? string.Empty;
-                        posts.Createday = Convert.ToDateTime(reader["Createday"]);
-                        posts.Updateday = Convert.ToDateTime(reader["Updateday"]);
+                        posts.Createday = Convert.ToDateTime(reader["created_at"]);
+                        posts.Updateday = reader["updated_at"] != DBNull.Value ? Convert.ToDateTime(reader["updated_at"]) : DateTime.MinValue;
                         posts.likes = reader["likes"] != DBNull.Value ? Convert.ToInt32(reader["likes"]) : 0;
-                        posts.tags = reader["tags"] != DBNull.Value ? Convert.ToInt32(reader["tags"]) : 0;
+                        if (reader["tags"] != DBNull.Value)
+                        {
+                            posts.tags = ((string[])reader["tags"]).ToList(); // Convert string[] to List<string>
+                        }
+                        else
+                        {
+                            posts.tags = new List<string>(); // Default to empty list if NULL
+                        }
                         result.Add(posts);
                     }
                 }

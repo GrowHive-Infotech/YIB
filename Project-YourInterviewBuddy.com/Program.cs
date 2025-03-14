@@ -31,6 +31,10 @@ builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<IPostProvider, PostProvider>();
 builder.Services.AddTransient<IUserRepo, UserRepo>();
 builder.Services.AddTransient<IUserProvider, UserProvider>();
+builder.Services.AddTransient<IInterviewQuestionRepository, InterviewQuestionRepository>();
+builder.Services.AddTransient<IInterviewQProvider, InterviewProvider>();
+
+
 IConfiguration configuration = builder.Configuration;
 var settingValue = configuration["MySettings:CockroachDb"];
 Console.WriteLine($"Setting Value: {settingValue}");

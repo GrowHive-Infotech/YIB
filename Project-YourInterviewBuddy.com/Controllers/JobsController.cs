@@ -59,4 +59,44 @@ public class JobController : ControllerBase
             return StatusCode(500, new { error = "Database error", details = ex.Message });
         }
     }
+
+    [HttpGet]
+
+    public async Task<IActionResult> GetJobs()
+    {
+        return Ok(GetAllJobs());
+    }
+
+    public List<Job> GetAllJobs()
+    {
+        var jobs = new List<Job>();
+        var _connectionString = _configuration["MySettings:CockroachDb"];
+        using (var conn = new NpgsqlConnection(_connectionString))
+        {
+            conn.Open();
+            using (var cmd = new NpgsqlCommand("SELECT * FROM jobs", conn))
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var job = new Job
+                    {
+                        JobTitle = reader.GetString(reader.GetOrdinal("job_title")),
+                        CompanyName = reader.GetString(reader.GetOrdinal("company_name")),
+                        Location = reader.IsDBNull(reader.GetOrdinal("location")) ? null : reader.GetString(reader.GetOrdinal("location")),
+                        EmploymentType = reader.GetString(reader.GetOrdinal("employment_type")),
+                        SalaryRange = reader.IsDBNull(reader.GetOrdinal("salary_range")) ? null : reader.GetString(reader.GetOrdinal("salary_range")),
+                        ExperienceRequired = reader.IsDBNull(reader.GetOrdinal("experience_required")) ? 0 : reader.GetInt32(reader.GetOrdinal("experience_required")),
+                        SkillsRequired = reader.IsDBNull(reader.GetOrdinal("skills_required")) ? Array.Empty<string>() : (string[])reader["skills_required"],
+                        JobDescription = reader.GetString(reader.GetOrdinal("job_description")),
+                        ApplicationDeadline = reader.IsDBNull(reader.GetOrdinal("application_deadline")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("application_deadline")),
+                        JobUrl = reader.GetString(reader.GetOrdinal("job_url"))
+                    };
+                    jobs.Add(job);
+                }
+            }
+        }
+
+        return jobs;
+    }
 }

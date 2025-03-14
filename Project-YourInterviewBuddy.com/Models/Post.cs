@@ -2,7 +2,7 @@
 {
     public class Post
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Author { get; set; }
@@ -10,7 +10,7 @@
         public DateTime Updateday { get; set; }
         public string lastUpdatedBy { get; set; }
         public int likes { get; set; }
-        public int tags { get; set; }
+        public List<string> tags { get; set; }
 
     }
 }

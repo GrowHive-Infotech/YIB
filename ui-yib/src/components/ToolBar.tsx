@@ -52,7 +52,7 @@ const ToolBar = () => {
                     <Link to="/jb" className="nav-button" onClick={() => setIsMenuOpen(false)}>Job Board</Link>
                     {user ? (
                         <>
-                            <span className="nav-button">{user.username}</span>
+                            <span className="nav-button">{user.name}</span>
                             <button className="nav-button" onClick={() => { logout(); setIsMenuOpen(false); }}>Logout</button>
                         </>
                     ) : (
@@ -62,6 +62,7 @@ const ToolBar = () => {
                         </>
                     )}
                 </div>
+
             </div>
 
             <Routes>

@@ -6,6 +6,8 @@
     width: 100%;
     padding: 20px 0;
     margin-top: auto; /* Pushes footer to the bottom */
+    bottom: 0px;
+    position: relative
 }
 
 .footer-container {
