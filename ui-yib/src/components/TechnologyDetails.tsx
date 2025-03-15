@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./tech.css";
+import BlogPost from "./BlogPost";
 const TechnologyDetails = ({ match } ) => {
     const  techName  = match;
     const topics = ["Introduction", "Basics", "Advanced Topics", "Best Practices"];
@@ -16,6 +17,7 @@ const TechnologyDetails = ({ match } ) => {
             <div className="main-content">
                 <h2>{techName}</h2>
                 <p>Content for {techName} will be displayed here.</p>
+                <BlogPost fileName="blog3.html"/>
             </div>
         </div>
     );

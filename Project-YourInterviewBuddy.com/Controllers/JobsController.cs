@@ -64,10 +64,20 @@ public class JobController : ControllerBase
 
     public async Task<IActionResult> GetJobs()
     {
-        return Ok(GetAllJobs());
+        var res=GetAllJobspvt();
+        return Ok(res);
     }
 
-    public List<Job> GetAllJobs()
+    [HttpGet]
+    [Route("Technologies")]
+    public async Task<IActionResult> GetTechnologies()
+    {
+        var res = GetAllTechnologies();
+        return Ok(res);
+    }
+
+
+    private List<Job> GetAllJobspvt()
     {
         var jobs = new List<Job>();
         var _connectionString = _configuration["MySettings:CockroachDb"];
@@ -98,5 +108,32 @@ public class JobController : ControllerBase
         }
 
         return jobs;
+    }
+
+    private List<Technology> GetAllTechnologies()
+    {
+        var technologies = new List<Technology>();
+        var _connectionString = _configuration["MySettings:CockroachDb"];
+
+        using (var conn = new NpgsqlConnection(_connectionString))
+        {
+            conn.Open();
+            using (var cmd = new NpgsqlCommand("SELECT * FROM technologies", conn))
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var technology = new Technology
+                    {
+                        Id = reader.GetGuid(reader.GetOrdinal("id")),
+                        Name = reader.GetString(reader.GetOrdinal("name")),
+                        Count = reader.IsDBNull(reader.GetOrdinal("count")) ? 0 : reader.GetInt64(reader.GetOrdinal("count"))
+                    };
+                    technologies.Add(technology);
+                }
+            }
+        }
+
+        return technologies;
     }
 }

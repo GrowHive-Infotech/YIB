@@ -15,6 +15,7 @@ const HomePage: React.FC = () => {
             try {
                 const response = await axios.get('https://localhost:7287/api/posts/GetAllPosts'); // Replace with your API endpoint
                 setBlogs(response.data.slice(0, 10)); // Limit to 10 items
+                console.log(blogs);
             } catch (error) {
                 console.error('Error fetching blogs:', error);
             }
@@ -25,6 +26,7 @@ const HomePage: React.FC = () => {
             try {
                 const response = await axios.get('https://localhost:7287/api/jobs'); // Replace with your API endpoint
                 setJobs(response.data.slice(0, 10));
+                console.log(jobs);
             } catch (error) {
                 console.error('Error fetching jobs:', error);
             }
@@ -35,6 +37,7 @@ const HomePage: React.FC = () => {
             try {
                 const response = await axios.get('https://localhost:7287/api/posts/GetAllIQ'); // Replace with your API endpoint
                 setInterviewQuestions(response.data.slice(0, 10));
+                console.log(interviewQuestions);
             } catch (error) {
                 console.error('Error fetching interview questions:', error);
             }
@@ -78,10 +81,10 @@ const HomePage: React.FC = () => {
                 <div className="card-container">
                     {jobs.map((job) => (
                         <div key={job.id} className="card">
-                            <img src={job.logo} alt={job.company} className="company-logo" />
                             <div className="card-content">
-                                <h3>{job.title}</h3>
+                                <h3>{job.jobTitle}</h3>
                                 <p>{job.company} - {job.location}</p>
+                                <h4>Experience Required:{job.experienceRequired} years</h4>
                                 <button className="apply-button">Apply Now</button>
                             </div>
                         </div>
@@ -97,8 +100,8 @@ const HomePage: React.FC = () => {
                         <div key={question.id} className="card">
                             <div className="card-content">
                                 <h3>{question.question}</h3>
-                                <p><strong>Category:</strong> {question.technology}</p>
-                                <p><strong>Difficulty:</strong> {question.difficulty}</p>
+                                <p><strong>Category:</strong> {question.TechnologyId}</p>
+                                <p><strong>Difficulty:</strong> {question.difficultyLevel}</p>
                                 <button className="practice-button">Practice</button>
                             </div>
                         </div>
