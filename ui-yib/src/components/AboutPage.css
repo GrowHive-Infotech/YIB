@@ -4,6 +4,7 @@
     max-width: 800px;
     margin: 0 auto;
     color: #333;
+    margin-top: 50px
 }
 
 .about-header {
@@ -26,6 +27,7 @@
     background-color: #f8f9fa;
     padding: 15px;
     border-radius: 10px;
+    margin-bottom: 45px
 }
 
     .about-footer h2 {

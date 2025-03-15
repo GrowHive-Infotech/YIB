@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Project_YourInterviewBuddy.com.Models;
+﻿using Project_YourInterviewBuddy.com.Models;
 using Project_YourInterviewBuddy.com.Repositories;
 
 namespace Project_YourInterviewBuddy.com.Providers
@@ -16,7 +15,7 @@ namespace Project_YourInterviewBuddy.com.Providers
             return await _userRepo.createUser(user);
         }
 
-        public Task<bool> login(InputUser input)
+        public UserOutput? login(LoginModal input)
         {
             return _userRepo.Login(input);
         }

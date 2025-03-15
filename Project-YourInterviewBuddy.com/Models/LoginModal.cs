@@ -2,7 +2,7 @@
 
 namespace Project_YourInterviewBuddy.com.Models
 {
-    public class InputUser
+    public class LoginModal
     {
         [Required]
         [EmailAddress]
@@ -11,7 +11,5 @@ namespace Project_YourInterviewBuddy.com.Models
 
         [Required]
         public string Password { get; set; }
-
-        public string UserName { get; set; }
     }
 }

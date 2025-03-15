@@ -1,44 +1,69 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import "./jobBoard.css";
+import { useAuth } from "./AuthContext"; // Import the AuthContext
 
 const JobBoard = () => {
+    const { user } = useAuth(); // Get the logged-in user from AuthContext
+    const navigate = useNavigate(); // Hook for navigation
     const [resume, setResume] = useState<File | null>(null);
     const [resumeUrl, setResumeUrl] = useState<string | null>(null);
-    const [experience, setExperience] = useState(0);
-    const [techStack, setTechStack] = useState("");
-    const [location, setLocation] = useState("");
-    const [results, setResults] = useState([]);
-    const [searchByResume, setSearchByResume] = useState(true);
-    const userId = "550e8400-e29b-41d4-a716-446655440000"; // Replace with actual user ID
+    const [experience, setExperience] = useState<number>(0);
+    const [techStack, setTechStack] = useState<string>("");
+    const [location, setLocation] = useState<string>("");
+    const [searchByResume, setSearchByResume] = useState<boolean>(true);
+    const [showSearchJobsButton, setShowSearchJobsButton] = useState<boolean>(false);
+    const [jobMatches, setJobMatches] = useState<any[]>([]);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const jobsPerPage = 10;
 
-    //useEffect(() => {
-    //    // Fetch user's resume if available
-    //    fetch(`http://localhost:5000/api/resume/${userId}`)
-    //        .then(response => response.json())
-    //        .then(data => {
-    //            if (data.resumeUrl) setResumeUrl(data.resumeUrl);
-    //        })
-    //        .catch(() => setResumeUrl(null));
-    //}, []);
+    const allowedLocations = ["New York", "San Francisco", "Austin"];
 
     const handleResumeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!user) {
+            toast.error("Please log in to upload a resume.");
+            navigate("/login"); // Redirect to login page
+            return;
+        }
+
         if (event.target.files && event.target.files.length > 0) {
             const selectedFile = event.target.files[0];
 
-            // Ensure it's a PDF
             if (selectedFile.type !== "application/pdf") {
-                alert("Only PDF files are allowed.");
+                toast.error("Only PDF files are allowed.");
                 return;
             }
 
             setResume(selectedFile);
+        }
+    };
+
+    const handleSubmit = async () => {
+        if (searchByResume && !resume) {
+            toast.error("Please select a resume to upload.");
+            return;
+        }
+
+        if (!searchByResume && (!techStack || experience <= 0 || !location)) {
+            toast.error("Please fill all filter fields.");
+            return;
+        }
+
+        if (searchByResume) {
+            if (!user) {
+                toast.error("Please log in to upload a resume.");
+                navigate("/login"); // Redirect to login page
+                return;
+            }
 
             const formData = new FormData();
-            formData.append("file", selectedFile); // Ensure this matches your backend field name
-            formData.append("userId", userId);
+            formData.append("Resume", resume);
+            formData.append("Email", user.email); // Use the logged-in user's email
 
             try {
-                const response = await fetch("http://localhost:7287/api/resume/upload", {
+                const response = await fetch("https://localhost:7287/api/resume/upload", {
                     method: "POST",
                     body: formData,
                 });
@@ -50,93 +75,124 @@ const JobBoard = () => {
                 const data = await response.json();
                 if (data.url) {
                     setResumeUrl(data.url);
-                    alert("Resume uploaded successfully!");
+                    setShowSearchJobsButton(true);
+                    toast.success("Resume uploaded successfully!");
                 } else {
                     throw new Error("No URL returned from the server.");
                 }
             } catch (error) {
                 console.error("Upload failed:", error);
-                alert("Resume upload failed. Please try again.");
+                toast.error("Resume upload failed. Please try again.");
             }
+        } else {
+            searchJobs();
         }
     };
 
+    const searchJobs = async () => {
+        try {
+            const queryParams = searchByResume
+                ? `email=${user.email}` // Use the logged-in user's email
+                : `techStack=${techStack}&experience=${experience}&location=${location}`;
+            const response = await fetch(`https://localhost:7287/api/resume/match-jobs?${queryParams}`);
 
-    const handleSearch = () => {
-        // Mock search results based on criteria
-        const mockResults = [
-            { id: 1, title: "Frontend Developer", company: "TechCorp", location: "New York" },
-            { id: 2, title: "Backend Engineer", company: "CodeBase", location: "San Francisco" },
-            { id: 3, title: "Full Stack Developer", company: "InnovateX", location: "Remote" }
-        ];
-        setResults(mockResults);
+            if (!response.ok) {
+                throw new Error(`Job search failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setJobMatches(data.matched_jobs.sort((a, b) => b.skill_match - a.skill_match || b.job_desc_match - a.job_desc_match));
+        } catch (error) {
+            console.error("Job search failed:", error);
+            toast.error("Job search failed. Please try again.");
+        }
     };
+
+    const indexOfLastJob = currentPage * jobsPerPage;
+    const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+    const currentJobs = jobMatches.slice(indexOfFirstJob, indexOfLastJob);
 
     return (
         <div className="job-board-container">
+            <ToastContainer />
             <h1>Job Board</h1>
 
-            {/* Search Mode Toggle */}
             <div className="toggle-switch">
                 <span>Search by Resume</span>
                 <label className="switch">
-                    <input type="checkbox" checked={searchByResume} onChange={() => setSearchByResume(!searchByResume)} />
+                    <input
+                        type="checkbox"
+                        checked={searchByResume}
+                        onChange={() => setSearchByResume(!searchByResume)}
+                    />
                     <span className="slider round"></span>
                 </label>
                 <span>Search by Filters</span>
             </div>
 
-            {/* Resume Upload & Display */}
-            <div className="resume-section">
-                <label htmlFor="resume-upload">Upload Resume:</label>
-                <input type="file" id="resume-upload" accept="application/pdf" onChange={handleResumeUpload} />
-                {resumeUrl ? (
-                    <p>Resume Uploaded: <a href={resumeUrl} target="_blank" rel="noopener noreferrer">View Resume</a></p>
-                ) : (
-                    <p>No Resume Found</p>
-                )}
-            </div>
+            {searchByResume ? (
+                <div className="resume-section">
+                    <label htmlFor="resume-upload">Upload Resume:</label>
+                    <input
+                        type="file"
+                        id="resume-upload"
+                        accept="application/pdf"
+                        onChange={handleResumeUpload}
+                        disabled={!user} // Disable input if user is not logged in
+                    />
+                    {!user && <p className="login-prompt">Please log in to upload a resume.</p>}
+                    {resumeUrl && <p>Resume Uploaded: <a href={resumeUrl} target="_blank" rel="noopener noreferrer">View Resume</a></p>}
+                </div>
+            ) : (
+                <div className="filters-section">
+                    <label>Skills:</label>
+                    <input
+                        type="text"
+                        value={techStack}
+                        onChange={(e) => setTechStack(e.target.value)}
+                        placeholder="Enter skills"
+                    />
 
-            {/* Search Filters (Only Show if NOT Searching by Resume) */}
-            {!searchByResume && (
-                <div className="filters">
-                    <label>
-                        Years of Experience:
-                        <input type="number" value={experience} onChange={(e) => setExperience(Number(e.target.value))} />
-                    </label>
+                    <label>Years of Experience:</label>
+                    <input
+                        type="number"
+                        value={experience}
+                        onChange={(e) => setExperience(Number(e.target.value))}
+                        placeholder="Enter experience"
+                    />
 
-                    <label>
-                        Tech Stack:
-                        <input type="text" value={techStack} onChange={(e) => setTechStack(e.target.value)} />
-                    </label>
-
-                    <label>
-                        Job Location:
-                        <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
-                    </label>
+                    <label>Preferred Location:</label>
+                    <select value={location} onChange={(e) => setLocation(e.target.value)}>
+                        <option value="">Select Location</option>
+                        {allowedLocations.map((loc) => (
+                            <option key={loc} value={loc}>{loc}</option>
+                        ))}
+                    </select>
                 </div>
             )}
 
-            {/* Search Button */}
-            <button onClick={handleSearch} className="search-button">Search</button>
+            <button onClick={handleSubmit} className="submit-button">Submit</button>
 
-            {/* Job Results */}
-            <div className="results-section">
-                {results.length > 0 ? (
-                    <div className="results-grid">
-                        {results.map((job) => (
-                            <div key={job.id} className="job-card">
-                                <h3>{job.title}</h3>
-                                <p>{job.company}</p>
-                                <p>{job.location}</p>
-                                <button className="apply-button">Apply</button>
+            {showSearchJobsButton && <button onClick={searchJobs} className="search-jobs-button">Search Jobs</button>}
+
+            {jobMatches.length > 0 && (
+                <div className="job-results">
+                    <h2>Matched Jobs</h2>
+                    <div className="job-cards">
+                        {currentJobs.map((job, index) => (
+                            <div className="job-card" key={index}>
+                                <h3>{job.job_title} at {job.company_name}</h3>
+                                <p>Skill Match: {job.skill_match}% | Job Desc Match: {job.job_desc_match}%</p>
                             </div>
                         ))}
                     </div>
-                ) : (
-                    <p>No results found. Please search to see jobs.</p>
-                )}
-            </div>
+
+                    <div className="pagination">
+                        <button onClick={() => setCurrentPage(prev => prev - 1)} disabled={currentPage === 1}>Previous</button>
+                        <button onClick={() => setCurrentPage(prev => prev + 1)} disabled={indexOfLastJob >= jobMatches.length}>Next</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

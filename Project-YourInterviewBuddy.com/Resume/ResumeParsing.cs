@@ -6,6 +6,7 @@ using iTextSharp.text.pdf.parser;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Npgsql;
+using Project_YourInterviewBuddy.com.Models;
 
 class ResumeParser
 {
@@ -172,7 +173,7 @@ class ResumeParser
     }
 
 
-    public void ParseResume(Stream pdfStream)
+    public void  ParseResume(Stream pdfStream)
     {
         // Extract text from the PDF
         string text = ExtractTextFromPdf(pdfStream);
@@ -191,8 +192,7 @@ class ResumeParser
 
     public static void InsertParsedResume(string email, string phone, int experience, Dictionary<string, string> rolesAndResponsibilities, List<string> techStack)
     {
-        var connectionString = "Host=wise-mumbai-7178.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=master-db;Password=C78QCSTTn9ZwDjJdQYD2Jg;SSL Mode=VerifyFull";
-
+        var connectionString = "Host=wool-piranha-8162.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=master-db;Password=1Y5QZVlJWJa_OQ06WAaZNw;SSL Mode=VerifyFull";
         try
         {
             using (var conn = new NpgsqlConnection(connectionString))
@@ -222,4 +222,86 @@ class ResumeParser
             Console.WriteLine("Error inserting resume data: " + ex.Message);
         }
     }
-}
+
+    public JobMatchRequest GetAllInformation(string email)
+    {
+        //aim is to get the skills, description for the person whose resume is this.
+        //aim 2 is like get all the jobs in the db in format of 
+        var connectionString = "Host=wool-piranha-8162.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=master-db;Password=1Y5QZVlJWJa_OQ06WAaZNw;SSL Mode=VerifyFull";
+        try
+        {
+            List<JobDescription> jd = new List<JobDescription>();
+            string skillset = string.Empty;
+            string personwd= string.Empty;
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = @"Select roles_and_responsibilities,tech_stack from parsed_resumes where Email=@Email";
+                using (var cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    using (var reader = cmd.ExecuteReader()) // Execute the query and read results
+                    {
+                        while (reader.Read())
+                        {
+                            string rolesAndResponsibilities = reader["roles_and_responsibilities"].ToString();
+                            string[] techStackArray = reader.GetFieldValue<string[]>(reader.GetOrdinal("tech_stack"));
+
+
+                            // Convert list to a space-separated string
+                            string spaceSeparatedSkillsforResume = string.Join(" ", techStackArray);
+                            personwd = rolesAndResponsibilities;
+                            skillset = spaceSeparatedSkillsforResume;
+
+
+                        }
+                    }
+                }
+
+                string query2 = @"Select skills_required,job_description,company_name,job_title from public.jobs";
+                using (var cmd = new NpgsqlCommand(query2, conn))
+                {
+                    using (var reader = cmd.ExecuteReader()) // Execute the query and read results
+                    {
+                        while (reader.Read())
+                        {
+                          string[] techStackArray = reader.GetFieldValue<string[]>(reader.GetOrdinal("skills_required"));
+
+                            // Convert list to a space-separated string
+                            string spaceSeparatedSkills = string.Join(" ", techStackArray);
+                            string job_description = reader["job_description"].ToString();
+                            string company_name = reader["company_name"].ToString();
+                            string job_title = reader["job_title"].ToString();
+                            JobDescription job = new JobDescription()
+                            {
+                                Description = job_description,
+                                Skills = spaceSeparatedSkills,
+                                CompanyName=company_name,
+                                JobTitle=job_title
+
+                            };
+                            jd.Add(job);
+                            
+                        }
+                    }
+                }
+            }
+            JobMatchRequest match = new JobMatchRequest()
+            {
+                Jobs = jd,
+                Skills = skillset,
+                Resume = personwd
+             };
+
+            return match;
+
+        }
+            
+        catch
+        {
+            return null;
+        }
+
+    }
+        }

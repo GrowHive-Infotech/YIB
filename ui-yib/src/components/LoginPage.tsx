@@ -1,184 +1,112 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-
+import axios from "axios";
+import { useAuth } from "./AuthContext";
+import "./LoginPage.css";
 interface LoginModalProps {
     isOpen: boolean;
-    onClose: any;
+    onClose: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose } ) => {
+const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     const [formData, setFormData] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({ username: "", password: "" });
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
+    const { setUser, logout } = useAuth();
+
+    useEffect(() => {
+        let timeout: NodeJS.Timeout;
+
+        if (isOpen) {
+            timeout = setInterval(() => {
+                logout();
+                onClose();
+            }, 5 * 60 * 1000); // 5 minutes auto logout
+        }
+
+        return () => clearInterval(timeout);
+    }, [isOpen, onClose, logout]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-        if (errors[name as keyof typeof errors]) {
-            setErrors({ ...errors, [name]: "" });
-        }
+        setErrors({ ...errors, [name]: "" });
     };
 
-    const closeform = () => {
-        console.log("close clicked", onClose);
-        onClose();
-    }
-
     const validate = () => {
-        const newErrors: typeof errors = { username: "", password: "" };
-        if (!formData.username) newErrors.username = "Username is required.";
-        if (!formData.password) newErrors.password = "Password is required.";
+        const newErrors = { username: "", password: "" };
+        if (!formData.username) newErrors.username = "Email is required";
+        if (!formData.password) newErrors.password = "Password is required";
         setErrors(newErrors);
         return !newErrors.username && !newErrors.password;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (validate()) {
-            console.log("Login Successful", formData);
-            // Proceed with login logic
+        if (!validate()) return;
+
+        setLoading(true);
+        setMessage("");
+
+        try {
+            const response = await axios.post("https://localhost:7287/api/user/login", {
+                Email: formData.username,
+                Password: formData.password,
+            });
+
+            if (response.status === 200) {
+                setMessage("Login successful!");
+                console.log("user is", response.data);
+                setUser(response.data); // Store user in context
+                localStorage.setItem("user", JSON.stringify(response.data)); // Store user in local storage
+                setTimeout(() => onClose(), 1500);
+            }
+        } catch (error: any) {
+            setMessage(error.response?.data?.message || "Login failed. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     if (!isOpen) return null;
 
     return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            style={overlayStyle}
-        >
-            <div style={modalStyle}>
-                <h2 style={headerStyle}>Login</h2>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="overlay">
+            <div className="modal">
+                <h2>Login</h2>
+                {message && <p className="message">{message}</p>}
                 <form onSubmit={handleSubmit}>
-                    <div style={fieldContainerStyle}>
-                        <label htmlFor="username" style={labelStyle}>Username</label>
+                    <div>
+                        <label>Email</label>
                         <input
-                            type="text"
-                            id="username"
+                            type="email"
                             name="username"
                             value={formData.username}
                             onChange={handleInputChange}
-                            style={{ ...inputStyle, borderColor: errors.username ? "red" : "#ccc" }}
+                            className="input"
                         />
-                        {errors.username && <p style={errorStyle}>{errors.username}</p>}
+                        {errors.username && <p className="error">{errors.username}</p>}
                     </div>
-
-                    <div style={fieldContainerStyle}>
-                        <label htmlFor="password" style={labelStyle}>Password</label>
+                    <div>
+                        <label>Password</label>
                         <input
                             type="password"
-                            id="password"
                             name="password"
                             value={formData.password}
                             onChange={handleInputChange}
-                            style={{ ...inputStyle, borderColor: errors.password ? "red" : "#ccc" }}
+                            className="input"
                         />
-                        {errors.password && <p style={errorStyle}>{errors.password}</p>}
+                        {errors.password && <p className="error">{errors.password}</p>}
                     </div>
-
-                    <button type="submit" style={submitButtonStyle}>Login</button>
+                    <button type="submit" disabled={loading} className="submit-btn">
+                        {loading ? "Logging in..." : "Login"}
+                    </button>
                 </form>
-                <div style={linkContainerStyle}>
-                    <a href="#" style={linkStyle}>Forgot Password?</a>
-                    <span style={separatorStyle}>|</span>
-                    <a href="#" style={linkStyle}>Forgot Username?</a>
-                </div>
-                <button style={closeButtonStyle} onClick={closeform}>X</button>
+                <button className="close" onClick={onClose}>X</button>
             </div>
         </motion.div>
     );
-};
-
-const overlayStyle: React.CSSProperties = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100vw",
-    height: "100vh",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1000,
-};
-
-const modalStyle: React.CSSProperties = {
-    backgroundColor: "white",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    width: "400px",
-    position: "relative",
-};
-
-const headerStyle: React.CSSProperties = {
-    fontSize: "1.5rem",
-    marginBottom: "20px",
-    textAlign: "center",
-};
-
-const fieldContainerStyle: React.CSSProperties = {
-    marginBottom: "15px",
-};
-
-const labelStyle: React.CSSProperties = {
-    display: "block",
-    marginBottom: "5px",
-    fontSize: "0.9rem",
-};
-
-const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    fontSize: "1rem",
-};
-
-const errorStyle: React.CSSProperties = {
-    color: "red",
-    fontSize: "0.8rem",
-    marginTop: "5px",
-};
-
-const submitButtonStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "10px",
-    backgroundColor: "#007BFF",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    fontSize: "1rem",
-    cursor: "pointer",
-};
-
-const linkContainerStyle: React.CSSProperties = {
-    textAlign: "center",
-    marginTop: "10px",
-    fontSize: "0.9rem",
-};
-
-const linkStyle: React.CSSProperties = {
-    color: "#007BFF",
-    textDecoration: "none",
-    cursor: "pointer",
-};
-
-const separatorStyle: React.CSSProperties = {
-    margin: "0 10px",
-    color: "#666",
-};
-
-const closeButtonStyle: React.CSSProperties = {
-    position: "absolute",
-    top: "10px",
-    right: "10px",
-    background: "none",
-    border: "none",
-    fontSize: "1.5rem",
-    color: "#666",
-    cursor: "pointer",
 };
 
 export default LoginModal;

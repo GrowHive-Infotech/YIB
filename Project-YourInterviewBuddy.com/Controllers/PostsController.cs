@@ -10,8 +10,11 @@ namespace Project_YourInterviewBuddy.com.Controllers
     public class PostsController : ControllerBase
     {
         private readonly IPostProvider _postprovider;
-        public PostsController(IPostProvider postProvider) {
+        private readonly IInterviewQProvider _interviewQProvider;
+        public PostsController(IPostProvider postProvider, IInterviewQProvider interviewQProvider)
+        {
             _postprovider = postProvider;
+            _interviewQProvider = interviewQProvider;
         }
         [HttpGet]
         [Route("GetAllPosts")]
@@ -37,5 +40,13 @@ namespace Project_YourInterviewBuddy.com.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("GetAllIQ")]
+        public IActionResult GetAllInterviewQuestions()
+        {
+
+            var res = _interviewQProvider.GetInterviewQuestions();
+            return Ok(res);
+        }
     }
 }

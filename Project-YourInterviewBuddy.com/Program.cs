@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy => policy
-            .WithOrigins("http://localhost:5174") // React app URL
+            .WithOrigins("http://localhost:5175","http://localhost:5176", "http://localhost:5173", "http://localhost:5174") // React app URL
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
@@ -31,6 +31,10 @@ builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<IPostProvider, PostProvider>();
 builder.Services.AddTransient<IUserRepo, UserRepo>();
 builder.Services.AddTransient<IUserProvider, UserProvider>();
+builder.Services.AddTransient<IInterviewQuestionRepository, InterviewQuestionRepository>();
+builder.Services.AddTransient<IInterviewQProvider, InterviewProvider>();
+
+
 IConfiguration configuration = builder.Configuration;
 var settingValue = configuration["MySettings:CockroachDb"];
 Console.WriteLine($"Setting Value: {settingValue}");

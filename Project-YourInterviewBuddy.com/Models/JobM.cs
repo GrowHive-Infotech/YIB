@@ -8,9 +8,27 @@ namespace Project_YourInterviewBuddy.com.Models
         [JsonPropertyName("resume")]
         public string Resume { get; set; }
 
-        [JsonPropertyName("job_descriptions")]
-        public List<string> JobDescriptions { get; set; }
+        [JsonPropertyName("skills")]
+        public string Skills { get; set; }  // Candidate's skills
+
+        [JsonPropertyName("jobs")]
+        public List<JobDescription> Jobs { get; set; }  // List of job descriptions
     }
+
+    public class JobDescription
+    {
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
+
+        [JsonPropertyName("skills")]
+        public string Skills { get; set; }  // Required skills for the job
+        [JsonPropertyName("job_title")]
+        public string JobTitle { get; set; }
+
+        [JsonPropertyName("company_name")]
+        public string CompanyName { get; set; }
+    }
+
 
     public class RankedJob
     {
@@ -33,6 +51,12 @@ namespace Project_YourInterviewBuddy.com.Models
 
 public class MatchedJob
     {
+
+        [JsonPropertyName("job_title")]
+        public string JobTitle { get; set; } // Job title from API response
+
+        [JsonPropertyName("company_name")]
+        public string Company { get; set; } // Company name from API response
         [JsonPropertyName("skill_match")]
         public float SkillMatch { get; set; }
 
