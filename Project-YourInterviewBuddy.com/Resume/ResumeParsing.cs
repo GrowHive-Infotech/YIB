@@ -37,7 +37,7 @@ class ResumeParser
         return match.Success ? match.Value : "Not Found";
     }
 
-    public static int ExtractExperience(string text)
+    public static string ExtractExperience(string text)
     {
         MatchCollection matches = Regex.Matches(text, @"(\d+)\s*(?:years|yrs|year|yr)\s*(?:of)?\s*(?:experience|exp)", RegexOptions.IgnoreCase);
         List<int> experienceYears = new List<int>();
@@ -48,7 +48,7 @@ class ResumeParser
                 experienceYears.Add(years);
         }
 
-        return experienceYears.Count > 0 ? experienceYears.Max() : 0;
+        return Convert.ToString(experienceYears.Count > 0 ? experienceYears.Max() : 0);
     }
 
     public static Dictionary<string, string> ExtractRolesAndResponsibilities(string text)
@@ -173,7 +173,7 @@ class ResumeParser
     }
 
 
-    public void  ParseResume(Stream pdfStream)
+    public void  ParseResume(Stream pdfStream,string exp)
     {
         // Extract text from the PDF
         string text = ExtractTextFromPdf(pdfStream);
@@ -181,7 +181,11 @@ class ResumeParser
         // Extract fields
         string email = ExtractEmail(text);
         string phone = ExtractPhoneNumber(text);
-        int experience = ExtractExperience(text);
+        string experience = ExtractExperience(text);
+        if (experience!=null)
+        {
+            experience = exp; // Assign exp value if experience is 0
+        }
         Dictionary<string, string> rolesAndResponsibilities = ExtractRolesAndResponsibilities(text);
         List<string> techStack = ExtractTechStack(text);
 
@@ -190,9 +194,9 @@ class ResumeParser
     }
 
 
-    public static void InsertParsedResume(string email, string phone, int experience, Dictionary<string, string> rolesAndResponsibilities, List<string> techStack)
+    public static void InsertParsedResume(string email, string phone, string experience, Dictionary<string, string> rolesAndResponsibilities, List<string> techStack)
     {
-        var connectionString = "Host=wool-piranha-8162.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=master-db;Password=1Y5QZVlJWJa_OQ06WAaZNw;SSL Mode=VerifyFull";
+        var connectionString = "Host=worn-clam-9205.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=anshy;Password=5GbNW8EhjsVXZ5WAyRPxQQ;SSL Mode=VerifyFull";        
         try
         {
             using (var conn = new NpgsqlConnection(connectionString))
@@ -227,7 +231,7 @@ class ResumeParser
     {
         //aim is to get the skills, description for the person whose resume is this.
         //aim 2 is like get all the jobs in the db in format of 
-        var connectionString = "Host=wool-piranha-8162.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=master-db;Password=1Y5QZVlJWJa_OQ06WAaZNw;SSL Mode=VerifyFull";
+        var connectionString = "Host=worn-clam-9205.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=anshy;Password=5GbNW8EhjsVXZ5WAyRPxQQ;SSL Mode=VerifyFull";
         try
         {
             List<JobDescription> jd = new List<JobDescription>();

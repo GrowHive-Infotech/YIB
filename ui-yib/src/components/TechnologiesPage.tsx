@@ -8,7 +8,7 @@ const TechnologiesPage = () => {
     const [technologies, setTechnologies] = useState([]); // State to store fetched technologies
     const [loading, setLoading] = useState(true); // State to handle loading state
     const [error, setError] = useState(null); // State to handle errors
-
+    
     // Fetch technologies from the backend API
     useEffect(() => {
         const fetchTechnologies = async () => {

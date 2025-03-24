@@ -23,32 +23,43 @@
     color: #007BFF;
 }
 
-.toggle-slider {
+.toggle-switch {
+    position: relative;
     width: 60px;
     height: 30px;
-    background-color: #ddd;
+    background-color: #ccc;
     border-radius: 15px;
-    position: relative;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.slider-thumb {
-    width: 25px;
-    height: 25px;
-    background-color: #007BFF;
-    border-radius: 50%;
+    .toggle-switch:hover {
+        background-color: #bbb;
+    }
+
+.slider {
     position: absolute;
-    top: 2.5px;
+    width: 26px;
+    height: 26px;
+    background-color: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
     transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-    .slider-thumb.blogs {
-        transform: translateX(2px);
+    .slider.blogs {
+        transform: translateX(0);
     }
 
-    .slider-thumb.interviewQuestions {
-        transform: translateX(32px);
+    .slider.interviewQuestions {
+        transform: translateX(30px);
     }
+
+.toggle-switch.active {
+    background-color: #4caf50;
+}
 
 .content {
     line-height: 1.6;
@@ -115,59 +126,4 @@
     .main-content {
         flex: 1;
     }
-}
-
-/* Toggle Switch Container */
-.toggle-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.toggle-label {
-    margin-right: 10px;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-/* Toggle Switch */
-.toggle-switch {
-    position: relative;
-    width: 60px;
-    height: 30px;
-    background-color: #ccc;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-    .toggle-switch:hover {
-        background-color: #bbb;
-    }
-
-/* Slider */
-.slider {
-    position: absolute;
-    width: 26px;
-    height: 26px;
-    background-color: white;
-    border-radius: 50%;
-    top: 2px;
-    left: 2px;
-    transition: transform 0.3s;
-}
-
-    /* Slider Position for Blogs Mode */
-    .slider.blogs {
-        transform: translateX(0);
-    }
-
-    /* Slider Position for Interview Questions Mode */
-    .slider.interviewQuestions {
-        transform: translateX(30px);
-    }
-
-/* Active State for Toggle Switch */
-.toggle-switch.active {
-    background-color: #4caf50;
 }

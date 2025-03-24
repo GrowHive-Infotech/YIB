@@ -43,7 +43,7 @@ public class ResumeController : ControllerBase
             string filePath = $"{request.Email}/{Guid.NewGuid()}.pdf"; // File path in Supabase storage
             using (Stream stream = request.Resume.OpenReadStream()) // ✅ Correct way to get stream from IFormFile
             {
-                resumeparsing.ParseResume(stream);
+                resumeparsing.ParseResume(stream,request.YOE);
             }
            
             // ✅ Using Upload() method that accepts byte[] data
