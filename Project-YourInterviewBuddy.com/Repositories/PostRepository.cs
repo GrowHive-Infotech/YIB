@@ -32,6 +32,7 @@ namespace Project_YourInterviewBuddy.com.Repositories
                     command.Parameters.AddWithValue("@lastUpdatedBy", inputPost.lastUpdatedBy ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@likes", inputPost.likes);
                     command.Parameters.AddWithValue("@tags", inputPost.tags);
+                    command.Parameters.AddWithValue("@technology", inputPost.technology);
                     // Execute the query
                     command.ExecuteNonQuery();
                     Console.WriteLine("Data inserted successfully.");
@@ -72,6 +73,7 @@ namespace Project_YourInterviewBuddy.com.Repositories
                         posts.Createday = Convert.ToDateTime(reader["created_at"]);
                         posts.Updateday = reader["updated_at"] != DBNull.Value ? Convert.ToDateTime(reader["updated_at"]) : DateTime.MinValue;
                         posts.likes = reader["likes"] != DBNull.Value ? Convert.ToInt32(reader["likes"]) : 0;
+                        posts.technology = reader["technology"].ToString() ?? string.Empty;
                         if (reader["tags"] != DBNull.Value)
                         {
                             posts.tags = ((string[])reader["tags"]).ToList(); // Convert string[] to List<string>

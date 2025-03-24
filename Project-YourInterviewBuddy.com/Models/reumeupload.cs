@@ -9,6 +9,9 @@ namespace Project_YourInterviewBuddy.com.Models
 
         [Required]
         public string Email { get; set; }
+
+        [Required]
+        public string YOE { get; set; }
     }
 
 }

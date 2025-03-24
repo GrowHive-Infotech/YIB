@@ -9,8 +9,8 @@ function App() {
   return (
       <AuthProvider>
           <ToolBar />
-          <Footer/>
-    </AuthProvider>
+              <Footer />
+\    </AuthProvider>
   )
 }
 

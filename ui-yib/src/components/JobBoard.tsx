@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useNavigate } from "react-router-dom";
 import "./jobBoard.css";
-import { useAuth } from "./AuthContext"; // Import the AuthContext
+import { useAuth } from "./AuthContext";
 
 const JobBoard = () => {
-    const { user } = useAuth(); // Get the logged-in user from AuthContext
-    const navigate = useNavigate(); // Hook for navigation
+    const { user } = useAuth();
+    const navigate = useNavigate();
     const [resume, setResume] = useState<File | null>(null);
     const [resumeUrl, setResumeUrl] = useState<string | null>(null);
-    const [experience, setExperience] = useState<number>(0);
+    const [experience, setExperience] = useState<string>(null);
     const [techStack, setTechStack] = useState<string>("");
     const [location, setLocation] = useState<string>("");
     const [searchByResume, setSearchByResume] = useState<boolean>(true);
@@ -24,7 +24,7 @@ const JobBoard = () => {
     const handleResumeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!user) {
             toast.error("Please log in to upload a resume.");
-            navigate("/login"); // Redirect to login page
+            navigate("/login");
             return;
         }
 
@@ -54,13 +54,14 @@ const JobBoard = () => {
         if (searchByResume) {
             if (!user) {
                 toast.error("Please log in to upload a resume.");
-                navigate("/login"); // Redirect to login page
+                navigate("/login");
                 return;
             }
 
             const formData = new FormData();
             formData.append("Resume", resume);
-            formData.append("Email", user.email); // Use the logged-in user's email
+            formData.append("Email", user.email);
+            formData.append("YOE", experience.toString());
 
             try {
                 const response = await fetch("https://localhost:7287/api/resume/upload", {
@@ -91,10 +92,17 @@ const JobBoard = () => {
 
     const searchJobs = async () => {
         try {
+            const encodedParam = encodeURIComponent(techStack);
+            var response = null;
             const queryParams = searchByResume
-                ? `email=${user.email}` // Use the logged-in user's email
-                : `techStack=${techStack}&experience=${experience}&location=${location}`;
-            const response = await fetch(`https://localhost:7287/api/resume/match-jobs?${queryParams}`);
+                ? `email=${user.email}`
+                : `techStack=${encodedParam}&experience=${experience}&location=${location}`;
+            if (searchByResume) {
+                 response = await fetch(`https://localhost:7287/api/resume/match-jobs?${queryParams}`);
+            }
+            else {
+                response = await fetch(`https://localhost:7287/api/resume/match-nonresumejobs?${queryParams}`);
+            }
 
             if (!response.ok) {
                 throw new Error(`Job search failed: ${response.status}`);
@@ -117,15 +125,16 @@ const JobBoard = () => {
             <ToastContainer />
             <h1>Job Board</h1>
 
-            <div className="toggle-switch">
+            {/* Modern Minimalistic Toggle Switch */}
+            <div className="toggle-container">
                 <span>Search by Resume</span>
-                <label className="switch">
+                <label className="minimal-switch">
                     <input
                         type="checkbox"
                         checked={searchByResume}
                         onChange={() => setSearchByResume(!searchByResume)}
                     />
-                    <span className="slider round"></span>
+                    <span className="slider"></span>
                 </label>
                 <span>Search by Filters</span>
             </div>
@@ -138,7 +147,13 @@ const JobBoard = () => {
                         id="resume-upload"
                         accept="application/pdf"
                         onChange={handleResumeUpload}
-                        disabled={!user} // Disable input if user is not logged in
+                        disabled={!user}
+                    />
+                    <input
+                        type="number"
+                        value={experience}
+                        onChange={(e) => setExperience(Number(e.target.value))}
+                        placeholder="Enter experience"
                     />
                     {!user && <p className="login-prompt">Please log in to upload a resume.</p>}
                     {resumeUrl && <p>Resume Uploaded: <a href={resumeUrl} target="_blank" rel="noopener noreferrer">View Resume</a></p>}

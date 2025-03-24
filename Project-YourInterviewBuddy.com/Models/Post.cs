@@ -11,6 +11,7 @@
         public string lastUpdatedBy { get; set; }
         public int likes { get; set; }
         public List<string> tags { get; set; }
+        public string technology { get; set; }
 
     }
 }
