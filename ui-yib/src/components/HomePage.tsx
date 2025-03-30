@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import Axios
+import { Link } from "react-router-dom";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import "./HomePage.css";
@@ -8,7 +9,8 @@ const HomePage: React.FC = () => {
     const [blogs, setBlogs] = useState([]);
     const [jobs, setJobs] = useState([]);
     const [interviewQuestions, setInterviewQuestions] = useState([]);
-
+    const Blogs = "blogs";
+    const IQ = "Iq";
     useEffect(() => {
         // Fetch blogs
         const fetchBlogs = async () => {
@@ -49,13 +51,23 @@ const HomePage: React.FC = () => {
         fetchInterviewQuestions();
     }, []);
 
+    const handleApplyNow = (jobUrl: string) => {
+        if (jobUrl) {
+            window.open(jobUrl, '_blank'); // Opens in new tab
+            // OR window.location.href = jobUrl; // Opens in current tab
+        } else {
+        }
+    };
+
     return (
         <div className="home">
             {/* Hero Section */}
             <div className="hero-section">
                 <h1>Welcome to YourInterviewBuddy</h1>
                 <p>Your one-stop solution for interview preparation, job hunting, and career growth.</p>
-                <button className="cta-button">Get Started</button>
+                <Link to={'/tech'}>
+                    <button className="cta-button">Get Started</button>
+                </Link>
             </div>
 
             {/* Top Blogs Section */}
@@ -68,7 +80,9 @@ const HomePage: React.FC = () => {
                             <div className="card-content">
                                 <h3>{blog.title}</h3>
                                 <p>{blog.excerpt}</p>
-                                <button className="read-more">Read More</button>
+                                <Link to={`technology/${blog.technology}/${Blogs}`}>
+                                    <button className="read-more">Read More</button>
+                                </Link>
                             </div>
                         </div>
                     ))}
@@ -85,7 +99,7 @@ const HomePage: React.FC = () => {
                                 <h3>{job.jobTitle}</h3>
                                 <p>{job.company} - {job.location}</p>
                                 <h4>Experience Required:{job.experienceRequired} years</h4>
-                                <button className="apply-button">Apply Now</button>
+                                <button className="apply-button" onClick={() => handleApplyNow(job.jobUrl)}>Apply Now</button>
                             </div>
                         </div>
                     ))}
@@ -102,7 +116,9 @@ const HomePage: React.FC = () => {
                                 <h3>{question.question}</h3>
                                 <p><strong>Category:</strong> {question.TechnologyId}</p>
                                 <p><strong>Difficulty:</strong> {question.difficultyLevel}</p>
-                                <button className="practice-button">Practice</button>
+                                <Link to={`interview/${question.technology_type}/${IQ}`}>
+                                    <button className="practice-button">Practice</button>
+                                </Link>
                             </div>
                         </div>
                     ))}

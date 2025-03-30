@@ -53,7 +53,7 @@ namespace Project_YourInterviewBuddy.com.Repositories
             {
                 conn.Open();
 
-                var query = "SELECT name FROM users WHERE email = @Email and password =@password;";
+                var query = "SELECT name,resume_url FROM public.users WHERE email = @Email and password =@password;";
                 using var command = new NpgsqlCommand(query, conn);
                 command.Parameters.AddWithValue("@Email", user.Email);
                 command.Parameters.AddWithValue("@password", user.Password);
@@ -64,6 +64,7 @@ namespace Project_YourInterviewBuddy.com.Repositories
                         string name = reader["name"].ToString();
                         userOutput.Name = name;
                         userOutput.Email = user.Email;
+                        userOutput.FileUrl = reader["resume_url"].ToString();
                         return userOutput;
                     }
                     else

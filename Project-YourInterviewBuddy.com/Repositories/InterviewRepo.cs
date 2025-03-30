@@ -35,7 +35,8 @@
                             Answer = reader.GetString(reader.GetOrdinal("answer")),
                             TechnologyId = reader.GetGuid(reader.GetOrdinal("technology")),
                             DifficultyLevel = reader.GetString(reader.GetOrdinal("difficulty_level")),
-                            CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"))
+                            CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at")),
+                            technology_type = reader.GetString(reader.GetOrdinal("technology_type")).ToString()
                         };
                         interviewQuestions.Add(question);
                     }

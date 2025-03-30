@@ -64,7 +64,7 @@ public class JobsController : ControllerBase
         [FromQuery] string location )
     {
         // 1. Validate required parameters
-        if (string.IsNullOrEmpty(email))
+        if (string.IsNullOrEmpty(techStack))
         {
             return BadRequest("Email is required.");
         }
@@ -75,7 +75,7 @@ public class JobsController : ControllerBase
             // Example: Query a database or external service
             ResumeParser rp = new ResumeParser();
 
-            var request = rp.GetAllInformation(email);
+            var request = rp.GetAllInformation("demo@yib.com");
             request.Skills = techStack;
             request.Resume = null;
             var jsonContent = new StringContent(
@@ -84,8 +84,7 @@ public class JobsController : ControllerBase
                 "application/json"
             );
 
-
-            var response = await _httpClient.PostAsync("http://localhost:8000/match-resume/", jsonContent);
+             var response = await _httpClient.PostAsync("http://localhost:8001/match-resume/", jsonContent);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -115,4 +114,7 @@ public class JobsController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+
+
+   
 }

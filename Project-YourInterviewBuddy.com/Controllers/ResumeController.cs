@@ -43,7 +43,7 @@ public class ResumeController : ControllerBase
             string filePath = $"{request.Email}/{Guid.NewGuid()}.pdf"; // File path in Supabase storage
             using (Stream stream = request.Resume.OpenReadStream()) // ✅ Correct way to get stream from IFormFile
             {
-                resumeparsing.ParseResume(stream,request.YOE);
+                resumeparsing.ParseResume(stream,request.YOE,request.Email);
             }
            
             // ✅ Using Upload() method that accepts byte[] data
@@ -53,7 +53,7 @@ public class ResumeController : ControllerBase
             string fileUrl = storage.From(bucketName).GetPublicUrl(filePath);
             var parameters = new { p_email = request.Email, p_resume_url = fileUrl };
             await supabase.Rpc("insert_resume", parameters);
-
+            resumeparsing.UpdateUser(fileUrl, request.Email);
             return Ok(new { message = "Resume uploaded successfully", url = fileUrl });
         }
         catch (Exception ex)

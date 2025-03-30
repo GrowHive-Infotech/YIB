@@ -172,8 +172,24 @@ class ResumeParser
         return techStack;
     }
 
+    public void UpdateUser(string fileurl,string email)
+    {
+        var connectionString = "Host=worn-clam-9205.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=anshy;Password=5GbNW8EhjsVXZ5WAyRPxQQ;SSL Mode=VerifyFull";
+        using (var conn = new NpgsqlConnection(connectionString))
+        {
+            conn.Open();
 
-    public void  ParseResume(Stream pdfStream,string exp)
+            string query = @"UPDATE public.users SET resume_url = @FileUrl WHERE email = @Email";
+            using (var cmd = new NpgsqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@Email", email);
+                cmd.Parameters.AddWithValue("@FileUrl", fileurl);
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+
+            public void  ParseResume(Stream pdfStream,string exp,string emails)
     {
         // Extract text from the PDF
         string text = ExtractTextFromPdf(pdfStream);
@@ -190,7 +206,7 @@ class ResumeParser
         List<string> techStack = ExtractTechStack(text);
 
         // Insert parsed data into CockroachDB
-        InsertParsedResume(email, phone, experience, rolesAndResponsibilities, techStack);
+        InsertParsedResume(emails, phone, experience, rolesAndResponsibilities, techStack);
     }
 
 
