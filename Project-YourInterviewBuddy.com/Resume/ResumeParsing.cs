@@ -279,7 +279,7 @@ class ResumeParser
                     }
                 }
 
-                string query2 = @"Select skills_required,job_description,company_name,job_title from public.jobs";
+                string query2 = @"Select skills_required,job_description,company_name,job_title,job_url from public.jobs";
                 using (var cmd = new NpgsqlCommand(query2, conn))
                 {
                     using (var reader = cmd.ExecuteReader()) // Execute the query and read results
@@ -293,13 +293,14 @@ class ResumeParser
                             string job_description = reader["job_description"].ToString();
                             string company_name = reader["company_name"].ToString();
                             string job_title = reader["job_title"].ToString();
+                            string url = reader["job_url"].ToString();
                             JobDescription job = new JobDescription()
                             {
                                 Description = job_description,
                                 Skills = spaceSeparatedSkills,
                                 CompanyName=company_name,
-                                JobTitle=job_title
-
+                                JobTitle=job_title,
+                                job_url=url
                             };
                             jd.Add(job);
                             

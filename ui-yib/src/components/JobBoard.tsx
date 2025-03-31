@@ -138,6 +138,16 @@ const JobBoard = () => {
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
     const currentJobs = jobMatches.slice(indexOfFirstJob, indexOfLastJob);
 
+    const handleApplyNow = (jobUrl: string) => {
+        console.log("url is", jobUrl,currentJobs);
+        if (jobUrl && user!=null ) {
+            window.open(jobUrl, '_blank'); // Opens in new tab
+            // OR window.location.href = jobUrl; // Opens in current tab
+        } else {
+            toast.error("Please log in to apply for job.");
+
+        }
+    };
     return (
         <div className="job-board-container">
             <ToastContainer />
@@ -221,6 +231,8 @@ const JobBoard = () => {
                             <div className="job-card" key={index}>
                                 <h3>{job.job_title} at {job.company_name}</h3>
                                 <p>Skill Match: {job.skill_match}% | Job Desc Match: {job.job_desc_match}%</p>
+                                <button className="apply-button" onClick={() => handleApplyNow(job.
+                                    job_url)}>Apply Now</button>
                             </div>
                         ))}
                     </div>

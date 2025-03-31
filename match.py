@@ -16,6 +16,7 @@ class JobDescription(BaseModel):
     skills: str  # Comma-separated skills
     job_title: str
     company_name: str
+    job_url: str  # New field for job URL
 
 # Define JobMatchRequest model
 class JobMatchRequest(BaseModel):
@@ -34,7 +35,7 @@ def calculate_match_percent(embedding1, embedding2):
 
 def normalize_skills(skills: str):
     """Normalize skills by splitting, trimming, and converting to lowercase."""
-    return [skill.strip().lower() for skill in skills.split(" ")]
+    return [skill.strip().lower() for skill in skills.split(",")]
 
 def calculate_skill_match(resume_skills: str, job_skills: str):
     """Calculate how much of the job's required skills are present in the resume."""
@@ -66,7 +67,7 @@ async def match_resume_endpoint(request: JobMatchRequest):
         # Calculate skill match
         skill_match_percent = calculate_skill_match(request.skills, job.skills)
 
-        # Calculate job description match (unchanged logic)
+        # Calculate job description match
         job_desc_embedding = get_embedding(job.description.strip())
         job_desc_match_percent = calculate_match_percent(resume_embedding, job_desc_embedding)
 
@@ -74,6 +75,7 @@ async def match_resume_endpoint(request: JobMatchRequest):
         job_match_scores.append({
             "job_title": job.job_title,
             "company_name": job.company_name,
+            "job_url": job.job_url,  # Include job URL in response
             "skill_match": skill_match_percent,
             "job_desc_match": round(job_desc_match_percent, 2)
         })

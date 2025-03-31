@@ -14,6 +14,7 @@ class JobDescription(BaseModel):
     skills: str  # Space-separated skills
     job_title: str
     company_name: str
+    job_url: str  # New field added
 
 class JobMatchRequest(BaseModel):
     resume: Optional[str] = None  # Now optional
@@ -71,6 +72,7 @@ async def match_resume_endpoint(request: JobMatchRequest):
         job_match_scores.append({
             "job_title": job.job_title,
             "company_name": job.company_name,
+            "job_url": job.job_url,  # New field added to response
             "skill_match": skill_match_percent,
             "job_desc_match": round(job_desc_match_percent, 2)
         })

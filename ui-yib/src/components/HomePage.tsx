@@ -2,13 +2,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import Axios
 import { Link } from "react-router-dom";
 import { Carousel } from 'react-responsive-carousel';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import "./HomePage.css";
+import { useAuth } from "./AuthContext";
+import SignUpModal from './SignUpModal';
+
 
 const HomePage: React.FC = () => {
     const [blogs, setBlogs] = useState([]);
     const [jobs, setJobs] = useState([]);
+    const { user } = useAuth();
     const [interviewQuestions, setInterviewQuestions] = useState([]);
+    const [isSignupModalOpen, SetisSignUpModalOpen] = useState(false);
     const Blogs = "blogs";
     const IQ = "Iq";
     useEffect(() => {
@@ -52,16 +59,29 @@ const HomePage: React.FC = () => {
     }, []);
 
     const handleApplyNow = (jobUrl: string) => {
-        if (jobUrl) {
+        if (jobUrl && user!=null) {
             window.open(jobUrl, '_blank'); // Opens in new tab
             // OR window.location.href = jobUrl; // Opens in current tab
         } else {
+            toast.error("Please log in to apply for job.");
+
         }
     };
+
+    const closeSignup = () => {
+        SetisSignUpModalOpen(false);
+    };
+
+    const openModal = () => {
+        SetisSignUpModalOpen(true);
+
+    }
 
     return (
         <div className="home">
             {/* Hero Section */}
+            <ToastContainer />
+            {isSignupModalOpen && <SignUpModal onClose={closeSignup} />}
             <div className="hero-section">
                 <h1>Welcome to YourInterviewBuddy</h1>
                 <p>Your one-stop solution for interview preparation, job hunting, and career growth.</p>
@@ -147,7 +167,7 @@ const HomePage: React.FC = () => {
             <div className="cta-section">
                 <h2>Ready to Ace Your Interviews?</h2>
                 <p>Join thousands of users who have successfully landed their dream jobs with YourInterviewBuddy.</p>
-                <button className="cta-button">Sign Up Now</button>
+                <button className="cta-button" onClick={()=>openModal()}>Sign Up Now</button>
             </div>
         </div>
     );
