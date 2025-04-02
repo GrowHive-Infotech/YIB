@@ -127,7 +127,7 @@ public class JobController : ControllerBase
                     {
                         Id = reader.GetGuid(reader.GetOrdinal("id")),
                         Name = reader.GetString(reader.GetOrdinal("name")),
-                        Count = reader.IsDBNull(reader.GetOrdinal("count")) ? 0 : reader.GetInt64(reader.GetOrdinal("count"))
+                        Count = reader.IsDBNull(reader.GetOrdinal("count")) ? 0 : reader.GetInt64(reader.GetOrdinal("count")),
                     };
                     technologies.Add(technology);
                 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -17,9 +17,26 @@ const JobBoard = () => {
     const [showSearchJobsButton, setShowSearchJobsButton] = useState<boolean>(false);
     const [jobMatches, setJobMatches] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [showResumeConfirmation, setShowResumeConfirmation] = useState<boolean>(false);
     const jobsPerPage = 10;
 
     const allowedLocations = ["New York", "San Francisco", "Austin"];
+
+    useEffect(() => {
+        // Check if user has existing resume when component mounts
+        if (user?.fileUrl) {
+            setResumeUrl(user.fileUrl);
+        }
+    }, [user]);
+
+    const handleSearchTypeToggle = (newSearchByResume: boolean) => {
+        if (newSearchByResume && user?.fileUrl) {
+            // Show confirmation if switching to resume search and user has existing resume
+            setShowResumeConfirmation(true);
+        } else {
+            setSearchByResume(newSearchByResume);
+        }
+    };
 
     const handleResumeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!user) {
@@ -41,7 +58,7 @@ const JobBoard = () => {
     };
 
     const handleSubmit = async () => {
-        if (searchByResume && !resume) {
+        if (searchByResume && !resume && !resumeUrl) {
             toast.error("Please select a resume to upload.");
             return;
         }
@@ -58,6 +75,7 @@ const JobBoard = () => {
                 return;
             }
 
+            // Otherwise proceed with new upload
             const formData = new FormData();
             formData.append("Resume", resume);
             formData.append("Email", user.email);
@@ -98,7 +116,7 @@ const JobBoard = () => {
                 ? `email=${user.email}`
                 : `techStack=${encodedParam}&experience=${experience}&location=${location}`;
             if (searchByResume) {
-                 response = await fetch(`https://localhost:7287/api/resume/match-jobs?${queryParams}`);
+                response = await fetch(`https://localhost:7287/api/resume/match-jobs?${queryParams}`);
             }
             else {
                 response = await fetch(`https://localhost:7287/api/resume/match-nonresumejobs?${queryParams}`);
@@ -120,6 +138,16 @@ const JobBoard = () => {
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
     const currentJobs = jobMatches.slice(indexOfFirstJob, indexOfLastJob);
 
+    const handleApplyNow = (jobUrl: string) => {
+        console.log("url is", jobUrl,currentJobs);
+        if (jobUrl && user!=null ) {
+            window.open(jobUrl, '_blank'); // Opens in new tab
+            // OR window.location.href = jobUrl; // Opens in current tab
+        } else {
+            toast.error("Please log in to apply for job.");
+
+        }
+    };
     return (
         <div className="job-board-container">
             <ToastContainer />
@@ -132,7 +160,7 @@ const JobBoard = () => {
                     <input
                         type="checkbox"
                         checked={searchByResume}
-                        onChange={() => setSearchByResume(!searchByResume)}
+                        onChange={() => handleSearchTypeToggle(!searchByResume)}
                     />
                     <span className="slider"></span>
                 </label>
@@ -141,6 +169,12 @@ const JobBoard = () => {
 
             {searchByResume ? (
                 <div className="resume-section">
+                    {resumeUrl && (
+                        <div className="existing-resume-notice">
+                            <p>You have an existing resume on file.</p>
+                            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">View Resume</a>
+                        </div>
+                    )}
                     <label htmlFor="resume-upload">Upload Resume:</label>
                     <input
                         type="file"
@@ -156,7 +190,6 @@ const JobBoard = () => {
                         placeholder="Enter experience"
                     />
                     {!user && <p className="login-prompt">Please log in to upload a resume.</p>}
-                    {resumeUrl && <p>Resume Uploaded: <a href={resumeUrl} target="_blank" rel="noopener noreferrer">View Resume</a></p>}
                 </div>
             ) : (
                 <div className="filters-section">
@@ -188,7 +221,7 @@ const JobBoard = () => {
 
             <button onClick={handleSubmit} className="submit-button">Submit</button>
 
-            {showSearchJobsButton && <button onClick={searchJobs} className="search-jobs-button">Search Jobs</button>}
+            {user?.fileUrl && <button onClick={searchJobs} className="search-jobs-button">Search Jobs</button>}
 
             {jobMatches.length > 0 && (
                 <div className="job-results">
@@ -198,6 +231,8 @@ const JobBoard = () => {
                             <div className="job-card" key={index}>
                                 <h3>{job.job_title} at {job.company_name}</h3>
                                 <p>Skill Match: {job.skill_match}% | Job Desc Match: {job.job_desc_match}%</p>
+                                <button className="apply-button" onClick={() => handleApplyNow(job.
+                                    job_url)}>Apply Now</button>
                             </div>
                         ))}
                     </div>
@@ -205,6 +240,37 @@ const JobBoard = () => {
                     <div className="pagination">
                         <button onClick={() => setCurrentPage(prev => prev - 1)} disabled={currentPage === 1}>Previous</button>
                         <button onClick={() => setCurrentPage(prev => prev + 1)} disabled={indexOfLastJob >= jobMatches.length}>Next</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Resume Confirmation Modal */}
+            {showResumeConfirmation && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>Resume Found</h3>
+                        <p>You already have a resume uploaded in our database. Would you like to use your existing resume?</p>
+                        <div className="modal-buttons">
+                            <button
+                                onClick={() => {
+                                    setSearchByResume(true);
+                                    setShowResumeConfirmation(false);
+                                    setShowSearchJobsButton(true);
+                                }}
+                                className="modal-confirm"
+                            >
+                                Yes, use existing resume
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setSearchByResume(true);
+                                    setShowResumeConfirmation(false);
+                                }}
+                                className="modal-cancel"
+                            >
+                                No, upload new resume
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

@@ -27,6 +27,8 @@ namespace Project_YourInterviewBuddy.com.Models
 
         [JsonPropertyName("company_name")]
         public string CompanyName { get; set; }
+
+        public string job_url { get; set; }
     }
 
 
@@ -62,6 +64,10 @@ public class MatchedJob
 
         [JsonPropertyName("job_desc_match")]
         public float JobDescMatch { get; set; }
+
+        [JsonPropertyName("job_url")]
+
+        public string JobUrl { get; set; }
     }
 
     public class JobMatchResponse

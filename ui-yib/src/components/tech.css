@@ -88,6 +88,7 @@
 }
 
 .sidebar {
+    margin-top:60px;
     flex: 1 1 250px;
     background-color: #f8f9fa;
     padding: 15px;

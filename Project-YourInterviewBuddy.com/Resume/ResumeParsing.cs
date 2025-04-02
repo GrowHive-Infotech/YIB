@@ -172,8 +172,24 @@ class ResumeParser
         return techStack;
     }
 
+    public void UpdateUser(string fileurl,string email)
+    {
+        var connectionString = "Host=worn-clam-9205.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=anshy;Password=5GbNW8EhjsVXZ5WAyRPxQQ;SSL Mode=VerifyFull";
+        using (var conn = new NpgsqlConnection(connectionString))
+        {
+            conn.Open();
 
-    public void  ParseResume(Stream pdfStream,string exp)
+            string query = @"UPDATE public.users SET resume_url = @FileUrl WHERE email = @Email";
+            using (var cmd = new NpgsqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@Email", email);
+                cmd.Parameters.AddWithValue("@FileUrl", fileurl);
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+
+            public void  ParseResume(Stream pdfStream,string exp,string emails)
     {
         // Extract text from the PDF
         string text = ExtractTextFromPdf(pdfStream);
@@ -190,7 +206,7 @@ class ResumeParser
         List<string> techStack = ExtractTechStack(text);
 
         // Insert parsed data into CockroachDB
-        InsertParsedResume(email, phone, experience, rolesAndResponsibilities, techStack);
+        InsertParsedResume(emails, phone, experience, rolesAndResponsibilities, techStack);
     }
 
 
@@ -263,7 +279,7 @@ class ResumeParser
                     }
                 }
 
-                string query2 = @"Select skills_required,job_description,company_name,job_title from public.jobs";
+                string query2 = @"Select skills_required,job_description,company_name,job_title,job_url from public.jobs";
                 using (var cmd = new NpgsqlCommand(query2, conn))
                 {
                     using (var reader = cmd.ExecuteReader()) // Execute the query and read results
@@ -277,13 +293,14 @@ class ResumeParser
                             string job_description = reader["job_description"].ToString();
                             string company_name = reader["company_name"].ToString();
                             string job_title = reader["job_title"].ToString();
+                            string url = reader["job_url"].ToString();
                             JobDescription job = new JobDescription()
                             {
                                 Description = job_description,
                                 Skills = spaceSeparatedSkills,
                                 CompanyName=company_name,
-                                JobTitle=job_title
-
+                                JobTitle=job_title,
+                                job_url=url
                             };
                             jd.Add(job);
                             

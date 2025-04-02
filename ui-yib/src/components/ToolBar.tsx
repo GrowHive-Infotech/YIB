@@ -70,7 +70,8 @@ const ToolBar = () => {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/services" element={<ServicesPage />} />
                 <Route path="/tech" element={<TechnologiesPage />} />
-                <Route path="/technology/:techName" element={<TechnologyDetails/>} />
+                <Route path="/technology/:techName/:view" element={<TechnologyDetails />} />
+                <Route path="/interview/:techName/:view" element={<TechnologyDetails />} />
                 <Route path="/jb" element={<JobBoard />} />
             </Routes>
             {isModalOpen && <LoginModal isOpen={isModalOpen} onClose={closeModal} />}

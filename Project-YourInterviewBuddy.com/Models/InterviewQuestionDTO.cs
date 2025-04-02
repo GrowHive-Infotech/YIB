@@ -10,5 +10,6 @@
         public Guid TechnologyId { get; set; } // Foreign key to the technologies table
         public string DifficultyLevel { get; set; } // Difficulty level (Easy, Medium, Hard)
         public DateTime CreatedAt { get; set; } // Timestamp when the question was created
+        public string technology_type { get; set; }
     }
 }
