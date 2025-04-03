@@ -1,26 +1,29 @@
-﻿using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.parser;
-using System.Collections.Generic;
+﻿using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
+using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using Newtonsoft.Json;
 using Npgsql;
 using Project_YourInterviewBuddy.com.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 
 class ResumeParser
 {
     public static string ExtractTextFromPdf(Stream pdfStream)
     {
         using (PdfReader reader = new PdfReader(pdfStream))
+        using (PdfDocument pdfDocument = new PdfDocument(reader))
         {
             ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
             string text = "";
 
-            for (int i = 1; i <= reader.NumberOfPages; i++)
+            for (int i = 1; i <= pdfDocument.GetNumberOfPages(); i++)
             {
-                text += PdfTextExtractor.GetTextFromPage(reader, i, strategy) + "\n";
+                text += PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(i), strategy) + "\n";
             }
+
             return text;
         }
     }
