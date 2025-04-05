@@ -11,7 +11,7 @@ const TechnologiesPage = () => {
     useEffect(() => {
         const fetchTechnologies = async () => {
             try {
-                const response = await fetch("https://localhost:7287/api/jobs/Technologies");
+                const response = await fetch("https://yourinterviewbuddy-dxcnhrdpd7c8a8db.southeastasia-01.azurewebsites.net/api/jobs/Technologies");
                 if (!response.ok) {
                     throw new Error("Failed to fetch technologies");
                 }

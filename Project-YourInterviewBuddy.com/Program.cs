@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy => policy
-            .WithOrigins("http://localhost:5175","http://localhost:5176", "http://localhost:5173", "http://localhost:5174") // React app URL
+            .WithOrigins("https://proud-desert-09640e010.6.azurestaticapps.net/") // React app URL
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
