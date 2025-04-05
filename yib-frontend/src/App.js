@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { AuthProvider } from "./components/AuthContext";
 import ToolBar from './components/ToolBar'
