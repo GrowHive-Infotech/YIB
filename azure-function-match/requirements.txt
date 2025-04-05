@@ -1,0 +1,5 @@
+azure-functions
+fastapi
+pydantic
+scikit-learn
+sentence-transformers
