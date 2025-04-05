@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./tech.css";
-
+import {host} from "./constants";
 const TechnologiesPage = () => {
     const [viewMode, setViewMode] = useState("blogs"); // 'blogs' or 'interviewQuestions'
     const [technologies, setTechnologies] = useState([]); // Array of tech objects
@@ -11,7 +11,7 @@ const TechnologiesPage = () => {
     useEffect(() => {
         const fetchTechnologies = async () => {
             try {
-                const response = await fetch("https://yourinterviewbuddy-dxcnhrdpd7c8a8db.southeastasia-01.azurewebsites.net/api/jobs/Technologies");
+                const response = await fetch(`${host}/api/jobs/Technologies`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch technologies");
                 }

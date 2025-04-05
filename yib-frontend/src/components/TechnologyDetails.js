@@ -4,7 +4,7 @@ import axios from 'axios';
 import BlogPost from "./BlogPost";
 import { useParams } from "react-router-dom";
 import InterviewPosts from "./InterviewPost";
-
+import {host} from "./constants";
 const TechnologyDetails = () => {
     const [blogs, setBlogs] = useState([]);
     const [filteredBlogs, setFilteredBlogs] = useState([]);
@@ -17,7 +17,7 @@ const TechnologyDetails = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get('https://localhost:7287/api/posts/GetAllPosts');
+                const response = await axios.get(`${host}/api/posts/GetAllPosts`);
                 setBlogs(response.data);
             } catch (error) {
                 console.error('Error fetching blogs:', error);
@@ -26,7 +26,7 @@ const TechnologyDetails = () => {
 
         const fetchIQ = async () => {
             try {
-                const response = await axios.get('https://localhost:7287/api/posts/GetAllIQ');
+                const response = await axios.get(`${host}/api/posts/GetAllIQ`);
                 setIq(response.data);
             } catch (error) {
                 console.error('Error fetching interview questions:', error);

@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
-
-const API_BASE_URL = "https://localhost:7287/api/otp";
+import {host} from "./constants";
+const API_BASE_URL = `${host}/api/otp`;
 
 const SignUpModal = ({ onClose }) => {
     const [step, setStep] = useState("signup");
