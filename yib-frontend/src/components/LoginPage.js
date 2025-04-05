@@ -4,7 +4,7 @@ import { useAuth } from "./AuthContext";
 import { CSSTransition } from "react-transition-group";
 import "./LoginPage.css";
 import "./fade.css"; // We'll add simple fade-in/fade-out CSS here
-
+import {host} from "./constants";
 const LoginModal = ({ isOpen, onClose }) => {
     const [formData, setFormData] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({ username: "", password: "" });
@@ -55,7 +55,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         setMessage("");
 
         try {
-            const response = await axios.post("https://localhost:7287/api/user/login", {
+            const response = await axios.post(`${host}/api/user/login`, {
                 Email: formData.username,
                 Password: formData.password,
             });
