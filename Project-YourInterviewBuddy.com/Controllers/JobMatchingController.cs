@@ -25,96 +25,174 @@ public class JobsController : ControllerBase
     public async Task<IActionResult> MatchJobs(string email)
     {
         ResumeParser rp = new ResumeParser();
-      
-            var request = rp.GetAllInformation(email);
-            var jsonContent = new StringContent(
-                JsonSerializer.Serialize(request),
-                Encoding.UTF8,
-                "application/json"
-            );
-       
+        var resumeData = rp.GetAllInformation(email);
 
-        var response = await _httpClient.PostAsync("http://localhost:8000/match-resume/", jsonContent);
+        string resumeText = resumeData.Resume;
+        string[] resumeSkills = resumeData.Skills.ToLower().Split(',').Select(s => s.Trim()).ToArray();
+        List<JobDescription> jobs = resumeData.Jobs;
 
-        if (!response.IsSuccessStatusCode)
+        // Step 2: Embed text into fake 384-dim vector for simulation
+        List<MatchedJob> results = new();
+
+        foreach (var job in jobs)
         {
-            return StatusCode((int)response.StatusCode, "Failed to fetch job matches from AI service.");
+            string[] jobSkills = job.Skills.ToLower().Split(',').Select(s => s.Trim()).ToArray();
+            var intersectSkills = resumeSkills.Intersect(jobSkills);
+
+            double skillMatchPercent = (double)intersectSkills.Count() / jobSkills.Length * 100.0;
+
+            // Fake embeddings with deterministic randomness
+            var resumeVec = GetFakeEmbedding(resumeText);
+            var jobVec = GetFakeEmbedding(job.Description);
+            double descSimilarity = CalculateCosineSimilarity(resumeVec, jobVec);
+
+            results.Add(new MatchedJob
+            {
+                JobTitle = job.JobTitle,
+                Company = job.CompanyName,
+                JobUrl = job.job_url,
+                SkillMatch = (float)Math.Round(skillMatchPercent, 2),
+                JobDescMatch = (float)Math.Round(descSimilarity * 100, 2)
+            });
         }
 
-        var responseText = await response.Content.ReadAsStringAsync();
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = false
-        };
-        
-        JobMatchResponse match_response = JsonSerializer.Deserialize<JobMatchResponse>(responseText, options); 
+        var sortedResults = results.OrderByDescending(r => r.SkillMatch).ToList();
 
-        foreach (var job in match_response.MatchedJobs)
+        foreach (var job in sortedResults)
         {
             Console.WriteLine($"Skill Match: {job.SkillMatch}, Job Desc Match: {job.JobDescMatch}");
-        };
+        }
 
-        return Ok(match_response);
+        return Ok(new JobMatchResponse { MatchedJobs = sortedResults });
     }
 
     [HttpGet("match-nonresumejobs")]
-    public async Task<IActionResult> MatchJobs(
-        [FromQuery] string techStack ,
-        [FromQuery] string experience ,
-        [FromQuery] string location )
+    public IActionResult MatchJobs(
+     [FromQuery] string techStack,
+     [FromQuery] string experience,
+     [FromQuery] string location)
     {
-        // 1. Validate required parameters
         if (string.IsNullOrEmpty(techStack))
         {
-            return BadRequest("Email is required.");
+            return BadRequest("TechStack is required.");
         }
 
-        // 2. Process the request (replace with your actual logic)
         try
         {
-            // Example: Query a database or external service
             ResumeParser rp = new ResumeParser();
-
             var request = rp.GetAllInformation("demo@yib.com");
             request.Skills = techStack;
-            request.Resume = null;
-            var jsonContent = new StringContent(
-                JsonSerializer.Serialize(request),
-                Encoding.UTF8,
-                "application/json"
-            );
+            request.Resume = null;  // Resume optional
 
-             var response = await _httpClient.PostAsync("http://localhost:8001/match-resume/", jsonContent);
+            var results = new List<MatchedJob>();
+            float[] resumeEmbedding = null;
 
-            if (!response.IsSuccessStatusCode)
+            if (!string.IsNullOrWhiteSpace(request.Resume))
             {
-                return StatusCode((int)response.StatusCode, "Failed to fetch job matches from AI service.");
+                resumeEmbedding = GetEmbedding(request.Resume);
             }
 
-            var responseText = await response.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions
+            foreach (var job in request.Jobs)
             {
-                PropertyNameCaseInsensitive = false
-            };
+                if (string.IsNullOrWhiteSpace(job.Skills)) continue;
 
-            JobMatchResponse match_response = JsonSerializer.Deserialize<JobMatchResponse>(responseText, options);
+                double skillMatch = CalculateSkillMatch(request.Skills, job.Skills);
+                double jobDescMatch = 0.0;
 
-            foreach (var job in match_response.MatchedJobs)
-            {
-                Console.WriteLine($"Skill Match: {job.SkillMatch}, Job Desc Match: {job.JobDescMatch}");
-            };
+                if (resumeEmbedding != null && !string.IsNullOrWhiteSpace(job.Description))
+                {
+                    var jobEmbedding = GetEmbedding(job.Description);
+                    jobDescMatch = Math.Round(CalculateCosineSimilarity(resumeEmbedding, jobEmbedding) * 100, 2);
+                }
 
-            return Ok(match_response);
+                results.Add(new MatchedJob
+                {
+                    JobTitle = job.JobTitle,
+                    Company = job.CompanyName,
+                    JobUrl = job.job_url,
+                    SkillMatch = (float)skillMatch,
+                    JobDescMatch = (float)jobDescMatch
+                });
+            }
 
-            // 3. Return the results
+            var sorted = results
+                .OrderByDescending(x => x.SkillMatch)
+                .ThenByDescending(x => x.JobDescMatch)
+                .ToList();
 
+            return Ok(new JobMatchResponse { MatchedJobs = sorted });
         }
         catch (Exception ex)
         {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
+            return StatusCode(500, $"Internal error: {ex.Message}");
         }
     }
 
+    private double[] GetFakeEmbedding(string text)
+    {
+        var hash = text.GetHashCode();
+        var random = new Random(hash);
+        return Enumerable.Range(0, 384).Select(_ => random.NextDouble()).ToArray();
+    }
 
-   
+    private double CalculateCosineSimilarity(double[] vec1, double[] vec2)
+    {
+        double dot = 0.0;
+        double norm1 = 0.0;
+        double norm2 = 0.0;
+
+        for (int i = 0; i < vec1.Length; i++)
+        {
+            dot += vec1[i] * vec2[i];
+            norm1 += vec1[i] * vec1[i];
+            norm2 += vec2[i] * vec2[i];
+        }
+
+        return dot / (Math.Sqrt(norm1) * Math.Sqrt(norm2));
+    }
+
+    private List<string> NormalizeSkills(string skills)
+    {
+        return skills.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                     .Select(s => s.Trim().ToLower())
+                     .ToList();
+    }
+
+    private double CalculateSkillMatch(string candidateSkills, string jobSkills)
+    {
+        var candidateList = NormalizeSkills(candidateSkills);
+        var jobList = NormalizeSkills(jobSkills);
+
+        if (jobList.Count == 0) return 0.0;
+
+        var overlap = candidateList.Intersect(jobList).Count();
+        return Math.Round((double)overlap / jobList.Count * 100, 2);
+    }
+    private float[] GetEmbedding(string text)
+    {
+        // For now, generate fake embedding vector based on text hash
+        Random rng = new Random(text.GetHashCode());
+        return Enumerable.Range(0, 384).Select(_ => (float)rng.NextDouble()).ToArray();
+    }
+
+    private double CalculateCosineSimilarity(float[] v1, float[] v2)
+    {
+        if (v1.Length != v2.Length) return 0.0;
+
+        double dot = 0, mag1 = 0, mag2 = 0;
+
+        for (int i = 0; i < v1.Length; i++)
+        {
+            dot += v1[i] * v2[i];
+            mag1 += v1[i] * v1[i];
+            mag2 += v2[i] * v2[i];
+        }
+
+        if (mag1 == 0 || mag2 == 0) return 0.0;
+
+        return dot / (Math.Sqrt(mag1) * Math.Sqrt(mag2));
+    }
+
 }
+
+
