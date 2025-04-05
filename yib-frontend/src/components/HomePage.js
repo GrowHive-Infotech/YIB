@@ -8,7 +8,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import "./HomePage.css";
 import { useAuth } from "./AuthContext";
 import SignUpModal from './SignUpModal';
-
+import {host} from "./constants";
 const HomePage = () => {
     const [blogs, setBlogs] = useState([]);
     const [jobs, setJobs] = useState([]);
@@ -22,7 +22,7 @@ const HomePage = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get('https://localhost:7287/api/posts/GetAllPosts');
+                const response = await axios.get(`${host}/api/posts/GetAllPosts`);
                 setBlogs(response.data.slice(0, 10));
             } catch (error) {
                 console.error('Error fetching blogs:', error);
@@ -31,7 +31,7 @@ const HomePage = () => {
 
         const fetchJobs = async () => {
             try {
-                const response = await axios.get('https://localhost:7287/api/jobs');
+                const response = await axios.get(`${host}/api/jobs`);
                 setJobs(response.data.slice(0, 10));
             } catch (error) {
                 console.error('Error fetching jobs:', error);
@@ -40,7 +40,7 @@ const HomePage = () => {
 
         const fetchInterviewQuestions = async () => {
             try {
-                const response = await axios.get('https://localhost:7287/api/posts/GetAllIQ');
+                const response = await axios.get(`${host}/api/posts/GetAllIQ`);
                 setInterviewQuestions(response.data.slice(0, 10));
             } catch (error) {
                 console.error('Error fetching interview questions:', error);

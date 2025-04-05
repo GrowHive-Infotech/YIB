@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./jobBoard.css";
 import { useAuth } from "./AuthContext";
-
+import {host} from "./constants";
 const JobBoard = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -76,7 +76,7 @@ const JobBoard = () => {
             formData.append("YOE", experience.toString());
 
             try {
-                const response = await fetch("https://localhost:7287/api/resume/upload", {
+                const response = await fetch(`${host}/api/resume/upload`, {
                     method: "POST",
                     body: formData,
                 });
@@ -112,7 +112,7 @@ const JobBoard = () => {
                 ? "match-jobs"
                 : "match-nonresumejobs";
 
-            response = await fetch(`https://localhost:7287/api/resume/${endpoint}?${queryParams}`);
+            response = await fetch(`${host}/api/resume/${endpoint}?${queryParams}`);
 
             if (!response.ok) throw new Error(`Job search failed: ${response.status}`);
 
