@@ -46,7 +46,7 @@ const SignUpModal = ({ onClose }) => {
 
     const saveUser = async (email, password, username) => {
         try {
-            await axios.post("https://localhost:7287/api/user", { email, password, username }, {
+            await axios.post(`${host}/api/user`, { email, password, username }, {
                 headers: { "Content-Type": "application/json" },
             });
             toast.success("User Registered Successfully!");
