@@ -12,7 +12,7 @@ namespace Project_YourInterviewBuddy.com.OTPService
         private readonly IMemoryCache _memoryCache;
         private readonly string _smtpServer = "smtp.gmail.com";
         private readonly int _smtpPort = 587;
-        private readonly string _smtpUsername = "emailtoanshularora@gmail.com";
+        private readonly string _smtpUsername = "support@yourinterviewbuddy.com";
         private readonly string _smtpPassword = "aayush1234@A";
 
         public OTPService(IMemoryCache memoryCache)
@@ -44,10 +44,10 @@ namespace Project_YourInterviewBuddy.com.OTPService
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                await client.ConnectAsync("smtpout.secureserver.net", 587, MailKit.Security.SecureSocketOptions.StartTls);
 
                 // Use App Password here if 2FA is enabled
-                await client.AuthenticateAsync(_smtpUsername, "cluj tuuv bmfj spyi");  // Replace with your Gmail address and app password
+                await client.AuthenticateAsync(_smtpUsername, "aayush1234@A");  // Replace with your Gmail address and app password
 
                 await client.SendAsync(message);
                 await client.DisconnectAsync(true);
