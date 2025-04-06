@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {
+      "route": "/*",  // Catch all routes
+      "serve": "/index.html",  // Always serve index.html
+      "statusCode": 200  // Optional: Force 200 status
+    }
+  ]
+}
