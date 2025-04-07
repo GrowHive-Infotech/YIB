@@ -20,7 +20,7 @@ const JobBoard = () => {
     const [showResumeConfirmation, setShowResumeConfirmation] = useState(false);
     const jobsPerPage = 10;
 
-    const allowedLocations = ["New York", "San Francisco", "Austin"];
+    const allowedLocations = ["Pune", "Indore", "Gurugram","Delhi","Chennai"];
 
     useEffect(() => {
         if (user?.fileUrl) {
