@@ -1,0 +1,185 @@
+/* Elegant Dark Template */
+.template3 {
+    font-family: 'Playfair Display', serif;
+    color: #ecf0f1;
+    line-height: 1.6;
+    padding: 40px;
+    background: #2c3e50;
+  }
+  
+  .resume-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .name-title h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: #ecf0f1;
+    font-weight: 700;
+  }
+  
+  .last-name {
+    color: #3498db;
+  }
+  
+  .professional-title {
+    font-size: 1.2rem;
+    color: #bdc3c7;
+    margin: 5px 0 0;
+    font-weight: 400;
+  }
+  
+  .contact-info {
+    margin-top: 20px;
+  }
+  
+  .contact-item {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: #bdc3c7;
+  }
+  
+  .social-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .social-links a {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+    color: #3498db;
+    margin: 30px 0 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+  }
+  
+  .section-title span {
+    margin-left: 10px;
+  }
+  
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    background-color: #3498db;
+  }
+  
+  .experience-item,
+  .education-item {
+    margin-bottom: 25px;
+  }
+  
+  .experience-header,
+  .education-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .experience-header h3,
+  .education-item h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #ecf0f1;
+    font-weight: 600;
+  }
+  
+  .company,
+  .institution {
+    font-weight: 600;
+    color: #bdc3c7;
+  }
+  
+  .date {
+    color: #7f8c8d;
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+  
+  .experience-description {
+    margin-top: 10px;
+    font-size: 0.95rem;
+  }
+  
+  .experience-description li {
+    margin-bottom: 5px;
+  }
+  
+  .two-column-section {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+  .two-column-section > .resume-section {
+    flex: 1;
+  }
+  
+  .skills-container {
+    margin-top: 10px;
+  }
+  
+  .skill-item {
+    margin-bottom: 15px;
+  }
+  
+  .skill-bar {
+    height: 4px;
+    background-color: #34495e;
+    border-radius: 2px;
+    margin-bottom: 5px;
+  }
+  
+  .skill-progress {
+    height: 100%;
+    background-color: #3498db;
+    border-radius: 2px;
+    width: 70%; /* This would be dynamic in a real app */
+  }
+  
+  .project-item {
+    margin-bottom: 20px;
+  }
+  
+  .project-item h3 {
+    font-size: 1.1rem;
+    margin: 0 0 5px;
+    color: #ecf0f1;
+  }
+  
+  .technologies {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+    margin-bottom: 5px;
+  }
+  
+  .activity-item {
+    margin-bottom: 15px;
+  }
+  
+  .activity-item h3 {
+    font-size: 1.1rem;
+    margin: 0 0 5px;
+    color: #ecf0f1;
+  }
+  
+  .position {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+  }
+  
+  @media (max-width: 768px) {
+    .two-column-section {
+      flex-direction: column;
+    }
+  }

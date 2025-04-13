@@ -1,0 +1,390 @@
+/* Template5.css - Photo Profile Template */
+
+/* Base Styles */
+.template5 {
+    font-family: 'Raleway', 'Segoe UI', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background: white;
+    max-width: 210mm; /* A4 width */
+    min-height: 297mm; /* A4 height */
+    margin: 0 auto;
+    padding: 40px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Header Section */
+  .resume-header {
+    display: flex;
+    margin-bottom: 40px;
+    align-items: center;
+    position: relative;
+  }
+  
+  .profile-photo {
+    flex: 0 0 150px;
+    margin-right: 30px;
+    position: relative;
+  }
+  
+  .photo-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ecf0f1 0%, #dfe6e9 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    border: 5px solid #3498db;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .photo-placeholder:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .header-content {
+    flex: 1;
+  }
+  
+  .header-content h1 {
+    font-size: 2.5rem;
+    margin: 0 0 5px;
+    color: #2c3e50;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  
+  .last-name {
+    color: #3498db;
+    font-weight: 800;
+  }
+  
+  .professional-title {
+    font-size: 1.3rem;
+    color: #7f8c8d;
+    margin: 0 0 25px;
+    font-weight: 400;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .professional-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: #3498db;
+  }
+  
+  .contact-info {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .contact-column {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .contact-item {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+  }
+  
+  .contact-item::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #3498db;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  /* Body Layout */
+  .resume-body {
+    display: flex;
+    gap: 40px;
+  }
+  
+  .left-column {
+    flex: 2;
+  }
+  
+  .right-column {
+    flex: 1;
+  }
+  
+  /* Section Styles */
+  .section-title {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    margin: 35px 0 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #3498db;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+  }
+  
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: #2980b9;
+  }
+  
+  .section-content {
+    font-size: 0.95rem;
+  }
+  
+  /* Experience Section */
+  .experience-item {
+    margin-bottom: 30px;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .experience-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background: #3498db;
+    border-radius: 50%;
+  }
+  
+  .experience-header h3 {
+    font-size: 1.2rem;
+    margin: 0 0 5px;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .experience-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .company {
+    font-weight: 600;
+    color: #34495e;
+  }
+  
+  .experience-description {
+    margin-top: 15px;
+  }
+  
+  .experience-description li {
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+    line-height: 1.5;
+  }
+  
+  .experience-description li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: #3498db;
+    font-size: 1.1rem;
+  }
+  
+  /* Education Section */
+  .education-item {
+    margin-bottom: 25px;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .education-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background: #3498db;
+    border-radius: 50%;
+  }
+  
+  .education-item h3 {
+    font-size: 1.2rem;
+    margin: 0 0 5px;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .education-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .gpa {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    font-style: italic;
+  }
+  
+  /* Skills Section */
+  .skills-container {
+    margin-top: 15px;
+  }
+  
+  .skill-item {
+    margin-bottom: 15px;
+  }
+  
+  .skill-name {
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .skill-meter {
+    height: 8px;
+    background-color: #ecf0f1;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  .skill-level {
+    height: 100%;
+    background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+    border-radius: 4px;
+    transition: width 1s ease-in-out;
+  }
+  
+  /* Projects Section */
+  .project-item {
+    margin-bottom: 25px;
+  }
+  
+  .project-item h3 {
+    font-size: 1.2rem;
+    margin: 0 0 5px;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .technologies {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  
+  .project-description {
+    margin-bottom: 5px;
+    line-height: 1.5;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .resume-body {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .right-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .template5 {
+      padding: 30px;
+    }
+  
+    .resume-header {
+      flex-direction: column;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  
+    .profile-photo {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+  
+    .professional-title::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  
+    .contact-info {
+      justify-content: center;
+    }
+  
+    .contact-column {
+      min-width: 100%;
+      text-align: center;
+    }
+  
+    .contact-item {
+      justify-content: center;
+    }
+  
+    .right-column {
+      grid-template-columns: 1fr;
+    }
+  
+    .section-title {
+      font-size: 1.3rem;
+      margin: 30px 0 15px;
+    }
+  }
+  
+  @media print {
+    .template5 {
+      box-shadow: none;
+      padding: 0;
+      max-width: 100%;
+      min-height: auto;
+    }
+  
+    body {
+      background: none;
+      margin: 0;
+      padding: 0;
+    }
+  
+    @page {
+      size: A4;
+      margin: 0;
+    }
+  }

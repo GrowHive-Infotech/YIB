@@ -11,6 +11,8 @@ import ServicesPage from './Services';
 import LoginModal from './LoginPage';
 import SignUpModal from './SignUpModal';
 import { useAuth } from './AuthContext';
+import MultiStepForm from '../ResumeBuilder/MultiStepForm';
+import ResumePreview from '../ResumeBuilder/ResumePreview';
 
 const ToolBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,7 +53,8 @@ const ToolBar = () => {
           <Link to="/services" className="nav-button" onClick={() => setIsMenuOpen(false)}>Services</Link>
           <Link to="/tech" className="nav-button" onClick={() => setIsMenuOpen(false)}>Technologies</Link>
           <Link to="/jb" className="nav-button" onClick={() => setIsMenuOpen(false)}>Job Board</Link>
-
+          <Link to="/resume" className="nav-button" onClick={() => setIsMenuOpen(false)}>Resume</Link>
+          <Link to="/resume-preview" className="nav-button" onClick={() => setIsMenuOpen(false)}>Resume Preview</Link>
           {user ? (
             <>
               <span className="nav-button">{user.name}</span>
@@ -74,6 +77,8 @@ const ToolBar = () => {
         <Route path="/technology/:techName/:view" element={<TechnologyDetails />} />
         <Route path="/interview/:techName/:view" element={<TechnologyDetails />} />
         <Route path="/jb" element={<JobBoard />} />
+        <Route path="/resume" element={<MultiStepForm />} />
+        <Route path="/resume-preview" element={<ResumePreview />} />
       </Routes>
 
       {isLoginModalOpen && <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />}
