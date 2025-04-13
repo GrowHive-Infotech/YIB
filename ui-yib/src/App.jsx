@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { AuthProvider } from "./components/AuthContext";
-import ToolBar from './components/ToolBar'
+import {ToolBar} from './components/index'
 import Footer from './components/Footer'
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
       <AuthProvider>
           <ToolBar />
               <Footer />
-\    </AuthProvider>
+    </AuthProvider>
   )
 }
 

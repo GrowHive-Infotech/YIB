@@ -42,7 +42,7 @@ const ToolBar = () => {
     return (
         <Router>
             <div className="toolbar_box">
-                <h2 className="logo">YourInterviewBuddy</h2>
+                <h2 className="text-yellow-200 ">YourInterviewBuddy</h2>
                 <div className="hamburger" onClick={toggleMenu}>☰</div>
                 <div className={`items ${isMenuOpen ? 'open' : ''}`}>
                     <Link to="/" className="nav-button" onClick={() => setIsMenuOpen(false)}>Home</Link>

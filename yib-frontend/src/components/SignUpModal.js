@@ -5,9 +5,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import {host} from "./constants";
+import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+
 const API_BASE_URL = `${host}/api/otp`;
 
 const SignUpModal = ({ onClose }) => {
+
+
+
+    const signupModalStatus=useSelector((state)=>state.modal.signupModal);
+    console.log("signupmodal : ",signupModalStatus);
+    
+    // const =modalStatus.signupModal;
     const [step, setStep] = useState("signup");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -79,9 +89,29 @@ const SignUpModal = ({ onClose }) => {
     };
 
     return (
-        <div className="modal-container">
-            <div className="modal-content">
-                <button className="close-button" onClick={onClose}>&times;</button>
+        <div className={`${signupModalStatus ? 'fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center' : 'hidden'}`}>
+  <div className="relative bg-white rounded-lg shadow-2xl px-6 py-8 sm:px-8 max-w-md w-[90%] overflow-hidden text-center">
+
+  <div className="flex justify-center mb-4">
+      <button
+        onClick={onClose}
+        className="text-gray-500 hover:text-black text-3xl font-bold focus:outline-none"
+        aria-label="Close"
+      >
+        &times;
+      </button>
+    </div>
+    <div className="flex justify-center mb-4">
+      <button
+        onClick={onBack}
+        className="text-gray-500 hover:text-black text-3xl font-bold focus:outline-none"
+        aria-label="back"
+      >
+        &larr;
+      </button>
+    </div>
+            
+                
                 <h2>
                     {step === "signup"
                         ? "Sign Up"

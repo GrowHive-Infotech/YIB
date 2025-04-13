@@ -41,7 +41,7 @@ const ToolBar = () => {
   };
 
   return (
-    <Router>
+    <>
       <div className="toolbar_box">
         <h2 className="logo">YourInterviewBuddy</h2>
         <div className="hamburger" onClick={toggleMenu}>☰</div>
@@ -66,7 +66,7 @@ const ToolBar = () => {
         </div>
       </div>
 
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
@@ -74,11 +74,11 @@ const ToolBar = () => {
         <Route path="/technology/:techName/:view" element={<TechnologyDetails />} />
         <Route path="/interview/:techName/:view" element={<TechnologyDetails />} />
         <Route path="/jb" element={<JobBoard />} />
-      </Routes>
+      </Routes> */}
 
       {isLoginModalOpen && <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />}
       {isSignUpModalOpen && <SignUpModal onClose={closeSignUpModal} />}
-    </Router>
+    </>
   );
 };
 
