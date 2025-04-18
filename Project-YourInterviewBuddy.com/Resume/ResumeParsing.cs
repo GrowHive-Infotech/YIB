@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 
 class ResumeParser
 {
+  var connectionString = "Host=amazed-mammoth-10405.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=YIB;Username=cogings;Password=Rtt5F00iVXaM5hPnx03Xdw;SSL Mode=VerifyFull";
+
     public static string ExtractTextFromPdf(Stream pdfStream)
     {
         using (PdfReader reader = new PdfReader(pdfStream))
@@ -177,7 +179,7 @@ class ResumeParser
 
     public void UpdateUser(string fileurl,string email)
     {
-        var connectionString = "Host=worn-clam-9205.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=anshy;Password=5GbNW8EhjsVXZ5WAyRPxQQ;SSL Mode=VerifyFull";
+        
         using (var conn = new NpgsqlConnection(connectionString))
         {
             conn.Open();
@@ -215,8 +217,7 @@ class ResumeParser
 
     public static void InsertParsedResume(string email, string phone, string experience, Dictionary<string, string> rolesAndResponsibilities, List<string> techStack)
     {
-        var connectionString = "Host=worn-clam-9205.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=anshy;Password=5GbNW8EhjsVXZ5WAyRPxQQ;SSL Mode=VerifyFull";        
-        try
+       
         {
             using (var conn = new NpgsqlConnection(connectionString))
             {
@@ -250,7 +251,7 @@ class ResumeParser
     {
         //aim is to get the skills, description for the person whose resume is this.
         //aim 2 is like get all the jobs in the db in format of 
-        var connectionString = "Host=worn-clam-9205.j77.aws-ap-south-1.cockroachlabs.cloud;Port=26257;Database=yib;Username=anshy;Password=5GbNW8EhjsVXZ5WAyRPxQQ;SSL Mode=VerifyFull";
+       
         try
         {
             List<JobDescription> jd = new List<JobDescription>();
