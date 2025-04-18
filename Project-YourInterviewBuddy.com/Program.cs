@@ -27,6 +27,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 builder.Services.AddMemoryCache();  // Add in-memory cache
+builder.Services.AddScoped<DbSetupService>();
 builder.Services.AddScoped<IOTPService,OTPService>();
 builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<IPostProvider, PostProvider>();

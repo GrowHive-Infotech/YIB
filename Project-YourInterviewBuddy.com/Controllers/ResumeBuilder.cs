@@ -123,5 +123,12 @@ namespace ResumeBuilderAPI.Controllers
         public ResumeData Data { get; set; }
     }
 
+    public class Template
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+    }
+
     // Define all your DTO classes (PersonalInfo, Education, WorkExperience, etc.)
 }
