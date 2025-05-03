@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Static Pages -->
+  <url>
+    <loc>https://yourinterviewbuddy.com/</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://yourinterviewbuddy.com/about</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yourinterviewbuddy.com/services</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yourinterviewbuddy.com/tech</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://yourinterviewbuddy.com/jb</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Dynamic Pages (Tech & Interview) -->
+  <!-- Example for /technology/react/overview -->
+  <url>
+    <loc>https://www.yourinterviewbuddy.com/technology/.NET/blogs</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.yourinterviewbuddy.com/technology/Java/blogs</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.yourinterviewbuddy.com/technology/React/blogs</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.yourinterviewbuddy.com/technology/SQL/blogs</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.yourinterviewbuddy.com/technology/SQL/blogs</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yourinterviewbuddy.com/technology/Azure/blogs</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yourinterviewbuddy.com/technology/CSharp/blogs</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Example for /interview/python/questions -->
+  <url>
+    <loc>https://yourinterviewbuddy.com/interview/CSharp/questions</loc>
+    <lastmod>2024-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
