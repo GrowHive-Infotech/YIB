@@ -8,7 +8,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import "./HomePage.css";
 import { useAuth } from "./AuthContext";
 import SignUpModal from './SignUpModal';
-import {host} from "./constants";
+import {host} from "../constants";
 const HomePage = () => {
     const [blogs, setBlogs] = useState([]);
     const [jobs, setJobs] = useState([]);

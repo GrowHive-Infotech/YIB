@@ -4,7 +4,7 @@ import { useAuth } from "./AuthContext";
 import { CSSTransition } from "react-transition-group";
 import "./LoginPage.css";
 import "./fade.css"; // We'll add simple fade-in/fade-out CSS here
-import {host} from "./constants";
+import {host} from "../constants";
 const LoginModal = ({ isOpen, onClose }) => {
     const [formData, setFormData] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({ username: "", password: "" });

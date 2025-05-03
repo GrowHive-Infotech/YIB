@@ -6,10 +6,11 @@ import { useAuth } from "../AuthContext";
 import { CSSTransition } from "react-transition-group";
 // import "./LoginPage.css";
 import "../fade.css"; // We'll add simple fade-in/fade-out CSS here
-import {host} from "../constants";
+import {host} from "../../constants";
 import { useSelector ,useDispatch} from "react-redux";
 import { toggleForm } from "../../store/modalSlice";
 import { login,logout } from "../../store/authSlice";
+import { toast } from "react-toastify";
 const LoginModal = () => {
     const [formData, setFormData] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({ username: "", password: "" });
@@ -54,6 +55,7 @@ const LoginModal = () => {
     };
 
     const onClose=()=>{
+      toast.dismiss();
       dispatch(toggleForm(['login',false]));
     }
 
@@ -103,7 +105,7 @@ const LoginModal = () => {
           <div className="absolute inset-0 bg-black bg-opacity-50" ></div>
     
           {/* Modal box */}
-          <div className="relative z-10 bg-white p-6 md:p-8 rounded-lg shadow-lg w-[90%] max-w-md text-left animate-fade-in">
+          <div className="relative z-10 bg-white p-6 md:p-8 rounded-lg shadow-lg w-[70%] max-w-md text-left animate-fade-in">
             {/* Close button */}
             <div className="flex justify-center mb-4">
       <button
@@ -157,7 +159,7 @@ const LoginModal = () => {
               >
                 {loading ? 'Logging in...' : 'Login'}
               </button>
-              <p className="text-center text-sm text-gray-600">
+              <p className="text-center text-sm text-gray-600  cursor-pointer">
                         Do not have an account?
                         <span className="text-slate-600 hover:underline ml-1 " onClick={()=>{
                           dispatch(toggleForm(['signup',true]));

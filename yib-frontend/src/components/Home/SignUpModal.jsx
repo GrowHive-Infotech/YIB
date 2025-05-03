@@ -4,11 +4,13 @@ import { ImCross } from "react-icons/im";
 import { IoArrowBackSharp } from "react-icons/io5";
 
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast,ToastContainer
+
+ } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
-import {host} from "../constants";
+import {host} from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleForm } from "../../store/modalSlice";
 import {signup} from '../../store/authSlice'
@@ -34,6 +36,7 @@ const SignUpModal = () => {
     const navigate = useNavigate();
 
     const onClose=()=>{
+      toast.dismiss();
 dispatch(toggleForm(['signup',false]));
 
     }
@@ -43,11 +46,23 @@ dispatch(toggleForm(['signup',false]));
             // await axios.post(`${API_BASE_URL}/generate`, `"${email}"`, {
             //     headers: { "Content-Type": "application/json" },
             // });
-            toast.success("OTP sent to your email!");
+
+            // if (!toast.isActive(TOAST_ID)) {
+            //   toast("This is a toast!", { toastId: TOAST_ID });
+            // }
+            toast.dismiss();
+            setTimeout(()=>{
+              toast.success("OTP sent to your email!");
+            },300)
+            
             setStep("otp");
             dispatch(toggleForm(['otp',true]));
         } catch (error) {
+          toast.dismiss();
+            setTimeout(()=>{
+          
             toast.error("Failed to send OTP. Please try again.");
+          },300)
         }
     };
 
@@ -58,14 +73,23 @@ dispatch(toggleForm(['signup',false]));
             // });
             const response =true;
             if (response) {
+              toast.dismiss();
+            setTimeout(()=>{
                 toast.success("OTP Verified Successfully!");
+              },300)
                 dispatch(toggleForm(['username',true]));
                 setStep("username");
             } else {
+              toast.dismiss();
+            setTimeout(()=>{
                 toast.error("Invalid OTP. Please try again.");
+              },300)
             }
         } catch (error) {
+          toast.dismiss();
+            setTimeout(()=>{
             toast.error("OTP Verification Failed. Please try again.");
+          },300)
         }
     };
 
@@ -74,7 +98,10 @@ dispatch(toggleForm(['signup',false]));
             // await axios.post(`${host}/api/user`, { email, password, username }, {
             //     headers: { "Content-Type": "application/json" },
             // });
+            toast.dismiss();
+            setTimeout(()=>{
             toast.success("User Registered Successfully!");
+          },300)
             // setTimeout(() => {
             //     onClose();
             //     navigate("/");
@@ -85,14 +112,20 @@ dispatch(toggleForm(['signup',false]));
                 passw:password
             }))
         } catch (error) {
+          toast.dismiss();
+            setTimeout(()=>{
             toast.error("Failed to register user. Please try again.");
+          },300)
         }
     };
 
     const handleSignUp = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
+          toast.dismiss();
+            setTimeout(()=>{
             toast.error("Passwords do not match!");
+          },300)
             return;
         }
        
@@ -110,8 +143,10 @@ dispatch(toggleForm(['signup',false]));
     };
 
     const onBack=()=>{
+      toast.dismiss();
         if(signupModalVal=='username')
         {
+        
             dispatch(toggleForm(['otp',true]))
             setStep('otp');
         }
@@ -130,6 +165,7 @@ dispatch(toggleForm(['signup',false]));
     {/* ==== Close Button – Top Center & Spaced ==== */}
     <div className={`flex ${signupModalVal!='signup'?'justify-between':'justify-center'} flex-row `}>
     <div className="flex justify-center mb-4">
+  
      {signupModalVal!='signup' && <button
         onClick={onBack}
         className="text-white hover:bg-black  bg-slate-800 text-lg px-3 pb-0 pt-[6px] font-bold focus:outline-none"
@@ -200,7 +236,7 @@ dispatch(toggleForm(['signup',false]));
           Sign Up
         </button>
 
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-gray-600 cursor-pointer">
           Already have an account?
           <span className="text-slate-600 hover:underline ml-1 " onClick={()=>{
             dispatch(toggleForm(['signup',false]));

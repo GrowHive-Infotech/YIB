@@ -8,9 +8,10 @@ function Navbar() {
                     <div className='absolute lg:left-[43%] mmd:left-[38%] md:left-[32%] '>
                     <DesktopMenu/>
                     </div>
-                    <div className='flex flex-row justify-between items-center'>
-                    <MobileMenu/>
+                    <div className='flex flex-row justify-between items-center space-x-5'>
                     <Button/>
+                    <MobileMenu/>
+                    
                     </div>
                     
                     

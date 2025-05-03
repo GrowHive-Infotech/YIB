@@ -3,6 +3,11 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+    
+  ]
+,
   theme: {
     screens: {
       'sm': '640px',
@@ -12,7 +17,20 @@ module.exports = {
       'xl': '1280px',
       '2xl': '1536px',
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        'slide-down': {
+          '0%': { transform: 'translateY(-100%)', opacity: 0 },
+          '100%': { transform: 'translateY(0)', opacity: 1 },
+        },
+      },
+      animation: {
+        'slide-down': 'slide-down 0.5s ease-out forwards',
+          'spin-slow': 'spin 8s linear infinite'
+    
+      },
+
+    },
   },
   plugins: [],
 }

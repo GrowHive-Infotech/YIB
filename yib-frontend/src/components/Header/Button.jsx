@@ -4,14 +4,15 @@ import { toggleForm } from '../../store/modalSlice';
 import { logout } from '../../store/authSlice';
 function Button() {
 
-  const [menu,setMenu]=useState(false);
+  const logoutMenuStatus=useSelector((state)=>state.modal.logoutMenu);
   const dispatch=useDispatch();
     const signupModalToggle=()=>{
-    
+      dispatch(toggleForm(['menu',false]));
      dispatch(toggleForm(['signup',true]));
   }
 
   const loginModalToggle=()=>{
+    dispatch(toggleForm(['menu',false]));
     dispatch(toggleForm(['login',true]));
   }
 
@@ -19,9 +20,9 @@ function Button() {
 
   return (
     
-    <div className="sm:flex hidden justify-between items-center">
+    <div className=" justify-between items-center">
 
-        {!currentUser && (<div className="space-x-4">
+        {!currentUser && (<div className="space-x-4 sm:flex hidden">
           <button onClick={signupModalToggle} className="bg-slate-700 hover:bg-slate-500 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
             Signup
           </button>
@@ -29,15 +30,18 @@ function Button() {
             Login
           </button>
         </div>)}
-        {currentUser && ( <div onClick={()=>{setMenu(!menu)}} className="space-x-4 relative flex justify-center">
+
+        {currentUser && ( <div onClick={()=>{
+          dispatch(toggleForm(['menu',false]))
+          dispatch(toggleForm(['menu2',!logoutMenuStatus]))}} className="space-x-4 relative flex justify-center">
           <div className="w-10 h-10 bg-white text-black flex items-center justify-center rounded-full text-xl font-medium p-0 m-0 cursor-pointer">
   {currentUser.email[0].toUpperCase()}
 </div>
-<div className={`${menu? 'flex flex-col justify-center items-center gap-2':'hidden'} absolute -right-4 top-[58px] z-20   bg-black rounded-md border p-2 border-white  shadow-md ` }>
+<div className={`${logoutMenuStatus? 'flex flex-col justify-center items-center gap-2':'hidden'} absolute -right-4 top-[58px] z-20   bg-black rounded-md border p-2 border-white  shadow-md ` }>
 <button onClick={()=>{
   console.log("Loged out")
   dispatch(logout(null));
-  setMenu(false);
+  dispatch(toggleForm(['menu2',false]))
 }} className="bg-slate-800 text-white py-2 px-4 m-0 rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
             Logout
           </button>

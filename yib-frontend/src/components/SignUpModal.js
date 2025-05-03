@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
-import {host} from "./constants";
+import {host} from "../constants";
 import { useSelector } from "react-redux";
 // import { useSelector } from "react-redux";
 
