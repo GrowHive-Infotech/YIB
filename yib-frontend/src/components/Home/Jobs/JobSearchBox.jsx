@@ -22,11 +22,14 @@ const JobSearchBox = () => {
   };
 
   const handleAddSkill = () => {
-    const trimmedSkill = skillInput.trim();
+    let trimmedSkill = skillInput.trim();
+    trimmedSkill.toLowerCase();
+    trimmedSkill = trimmedSkill[0].toUpperCase() + trimmedSkill.slice(1);
     if (trimmedSkill && !skills.includes(trimmedSkill)) {
       setSkills([...skills, trimmedSkill]);
       setSkillInput('');
     }
+    setSkillInput('');
   };
 
   const handleKeyDown = (e) => {
@@ -57,9 +60,8 @@ const dispatch=useDispatch();
   };
 
   return (
-    <div className="flex flex-col justify-center items-center max-w-md mx-auto mt-10 px-6 py-6 bg-slate-50 shadow-lg rounded-xl text-center">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800">Find your Job</h2>
-
+    <div className="flex flex-col justify-center items-center max-w-md mx-auto mt-5 lg:mt-10 px-6 py-6  shadow-lg rounded-xl text-center">
+      
       <div className="flex justify-center gap-4 mb-4">
         <button
           onClick={handleSkillSearch}
@@ -77,18 +79,24 @@ const dispatch=useDispatch();
 
       {/* Skill Input Section */}
       {showSkillInput && (
-        <div className="w-full max-w-sm flex flex-col gap-4">
+        <div className="w-[90%] flex flex-col pr-6 gap-x-6">
         <input
           type="text"
           value={skillInput}
           onChange={(e) => setSkillInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Enter a skill and press Enter"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="mb-3 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
         />
+
+
+
+
+
+
       
         {skills.length > 0 && (
-          <div className="flex flex-wrap justify-start gap-3 w-full">
+          <div className="mb-2 flex flex-wrap justify-start gap-3 w-full">
             {skills.map((skill, index) => (
               <div
                 key={index}
@@ -109,7 +117,10 @@ const dispatch=useDispatch();
       
         {skills.length > 0 && (
           <Link
-            to={`/jobs/skills`}
+          to={{
+            pathname: '/jobs/skills',
+            search: `?skills=${encodeURIComponent(skills.join(','))}`
+          }}
             onClick={()=>{
               dispatch(addSkills(skills));
             }}

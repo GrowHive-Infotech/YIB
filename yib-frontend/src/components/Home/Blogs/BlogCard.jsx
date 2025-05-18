@@ -6,6 +6,16 @@ import { format } from 'date-fns';
 // import './scrollbar.css'; // If you use scrollbar-hidden styles
 
 function BlogCard({ blog }) {
+
+const techImageMap = {
+  React: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+  Java: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
+  SQL: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
+  Azure: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg',
+  '.Net': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg',
+  CSharp: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg',
+};
+
   const displayDate=(dateee)=>{
       const formattedDate = format(new Date(dateee), 'MMMM d, yyyy');
       return formattedDate
@@ -14,26 +24,29 @@ function BlogCard({ blog }) {
   const currentUser=useSelector((state)=>state.auth.user);
   const dispatch=useDispatch();
   console.log(currentUser)
+
+  const imageUrl = techImageMap[blog.technology] || fallbackImage;
+
   return (
-    <div className="duration-300 cursor-pointer  hover:-translate-y-1 transform hover:bg-slate-50 m-1 bg-white dark:bg-gray-800 flex flex-col justify-between rounded-md p-4 border border-gray-200 dark:border-gray-700 shadow hover:shadow-2xl transition-all ">
+    <div className="duration-300 cursor-pointer  hover:-translate-y-1 transform hover:bg-slate-50 m-1 bg-white dark:bg-white  flex flex-col justify-between rounded-md p-4 border border-gray-200  shadow hover:shadow-2xl transition-all ">
       
         <img
-          src={blog.imageUrl || fallbackImage}
+          src={imageUrl}
           alt={`Image for ${blog.title}`}
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = fallbackImage;
           }}
-          className="w-full h-48 object-cover rounded-md mb-4"
+          className="w-full h-24  rounded-md mb-4"
         />
 
       <div className="flex flex-col flex-1 justify-between">
         <div>
-          <div className="no-underline text-lg font-semibold text-gray-800 dark:text-white hover:no-underline">
+          <div className="no-underline text-lg font-semibold text-gray-800  hover:no-underline">
             {blog.title}
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{displayDate(blog.createday)}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+          <p className="text-sm text-gray-500  mt-1">{displayDate(blog.createday)}</p>
+          <p className="text-sm text-gray-600  mt-2">
             {blog.description}
           </p>
         </div>

@@ -8,7 +8,7 @@ function TopJobsSection() {
   return (
     <div className="my-10 px-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800 ">🔥 Top Job Picks</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 ">🔥 Top Job Picks</h2>
 
         
         <Link
@@ -20,7 +20,7 @@ function TopJobsSection() {
       </div>
       
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {jobs.slice(0, 5).map((job, index) => (
+        {jobs?.slice(0, 5).map((job, index) => (
           <JobCard key={index} job={job}/>
         ))}
       </div>

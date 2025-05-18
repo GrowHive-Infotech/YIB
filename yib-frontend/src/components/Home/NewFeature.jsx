@@ -23,7 +23,7 @@ const NewFeature = () => {
       }`}
     >
       <div
-        className="ml-4 mt-8 max-w-4xl px-6 py-6 rounded-xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-200 dark:from-yellow-500/80 dark:to-yellow-400/80 shadow-lg ring-1 ring-black/10 dark:ring-white/10 text-black dark:text-gray-900 relative overflow-hidden"
+        className="ml-4 mt-8 max-w-4xl px-6 py-6 rounded-xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-200  shadow-lg ring-1 ring-black/10  text-black  relative overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, #f3f4f6, #f9fafb)', // Subtle light gradient background
           boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)', // Subtle shadow
@@ -34,7 +34,7 @@ const NewFeature = () => {
 
         {/* Sparkles Icon */}
         <div className="absolute top-[-10px] left-[-10px] opacity-30 animate-spin-slow">
-          <SparklesIcon className="h-16 w-16 text-yellow-600 dark:text-yellow-300" />
+          <SparklesIcon className="h-16 w-16 text-yellow-600 " />
         </div>
 
         {/* Content */}
@@ -42,11 +42,11 @@ const NewFeature = () => {
           <div>
             <p className="text-lg font-semibold flex items-center gap-2">
               ✨ Introducing{' '}
-              <span className="underline underline-offset-2 decoration-yellow-700 dark:decoration-yellow-200">
+              <span className="underline underline-offset-2 decoration-yellow-700 ">
                 Resume Builder
               </span>
             </p>
-            <p className="text-sm mt-1 text-gray-800 dark:text-gray-100">
+            <p className="text-sm mt-1 text-gray-800 ">
               Create stunning, professional resumes in minutes — powered by AI & designed to impress.
             </p>
           </div>

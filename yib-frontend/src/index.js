@@ -7,12 +7,14 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 // import HomePage from './components/HomePage';
 import Homee from './components/Home/Homee';
 import About from './components/About/About'
-import ResumePreview from './ResumeBuilder/ResumePreview';
-import MultiStepForm from './ResumeBuilder/MultiStepForm';
+// import ResumePreview from './components/Home/ResumeBuilder/ResumePreview';
+import MultiStepForm from './components/ResumeBuilder/MultiStepForm';
 import { BlogTopicsPage,BlogsTopicWiseSection } from './components/Home/Blogs';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import AllJobsPage from './components/Home/Jobs/AllJobsPage';
+import PrivacyPolicy from './components/Footer/PrivacyPolicy';
+import TermsofService from './components/Footer/TermsofService';
 
 
 const router=createBrowserRouter(createRoutesFromElements(
@@ -22,20 +24,16 @@ const router=createBrowserRouter(createRoutesFromElements(
   <Route path='blogs' element={<BlogTopicsPage/>}/>
   <Route path='blogs/:topic' element={<BlogsTopicWiseSection/>}/>
   <Route path='jobs/:category' element={<AllJobsPage/>}/>
-  <Route path="/resume-preview" element={<ResumePreview />} />
+  <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
+  <Route path='/terms' element={<TermsofService/>}/>
   <Route path="/resume" element={<MultiStepForm />} /> 
-        {/* <Route path="about" element={<AboutPage />} />
-        <Route path="services" element={<ServicesPage />} />
-        <Route path="tech" element={<TechnologiesPage />} />
-        <Route path="technology/:techName/:view" element={<TechnologyDetails />} />
-        <Route path="interview/:techName/:view" element={<TechnologyDetails />} />
-        <Route path="jb" element={<JobBoard />} /> */}
   </Route>
 ))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    
     <Provider store={store}>
     <RouterProvider router={router}></RouterProvider>
     </Provider>

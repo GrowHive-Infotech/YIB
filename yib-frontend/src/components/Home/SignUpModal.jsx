@@ -41,15 +41,16 @@ dispatch(toggleForm(['signup',false]));
 
     }
 
+
+
+
     const sendOtp = async (email) => {
         try {
-            // await axios.post(`${API_BASE_URL}/generate`, `"${email}"`, {
-            //     headers: { "Content-Type": "application/json" },
-            // });
+            await axios.post(`${API_BASE_URL}/generate`, `"${email}"`, {
+                headers: { "Content-Type": "application/json" },
+            });
 
-            // if (!toast.isActive(TOAST_ID)) {
-            //   toast("This is a toast!", { toastId: TOAST_ID });
-            // }
+            
             toast.dismiss();
             setTimeout(()=>{
               toast.success("OTP sent to your email!");
@@ -68,10 +69,9 @@ dispatch(toggleForm(['signup',false]));
 
     const verifyOtp = async (email, otp) => {
         try {
-            // const response = await axios.post(`${API_BASE_URL}/verify`, { email, otp }, {
-            //     headers: { "Content-Type": "application/json" },
-            // });
-            const response =true;
+            const response = await axios.post(`${API_BASE_URL}/verify`, { email, otp }, {
+                headers: { "Content-Type": "application/json" },
+            });
             if (response) {
               toast.dismiss();
             setTimeout(()=>{
@@ -95,9 +95,9 @@ dispatch(toggleForm(['signup',false]));
 
     const saveUser = async (email, password, username) => {
         try {
-            // await axios.post(`${host}/api/user`, { email, password, username }, {
-            //     headers: { "Content-Type": "application/json" },
-            // });
+            await axios.post(`${host}/api/user`, { email, password, username }, {
+                headers: { "Content-Type": "application/json" },
+            });
             toast.dismiss();
             setTimeout(()=>{
             toast.success("User Registered Successfully!");
@@ -109,7 +109,8 @@ dispatch(toggleForm(['signup',false]));
             dispatch(toggleForm(['signup',false]));
             dispatch(signup({
                 email:email,
-                passw:password
+                passw:password,
+                username:username
             }))
         } catch (error) {
           toast.dismiss();
@@ -156,6 +157,27 @@ dispatch(toggleForm(['signup',false]));
             dispatch(toggleForm(['signup',true]))
         }
     }
+
+
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     return (
         

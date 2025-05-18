@@ -18,6 +18,12 @@ module.exports = {
       '2xl': '1536px',
     },
     extend: {
+      blur: {
+        sm: '4px',
+        md: '8px',
+        lg: '16px',
+        xl: '24px',
+      },
       keyframes: {
         'slide-down': {
           '0%': { transform: 'translateY(-100%)', opacity: 0 },
@@ -32,6 +38,7 @@ module.exports = {
 
     },
   },
-  plugins: [],
+  plugins: [
+],
 }
 

@@ -67,22 +67,24 @@ const LoginModal = () => {
         setMessage("");
 
         try {
-          dispatch(toggleForm(['login',false]));
+          
+            const response = await axios.post(`${host}/api/user/login`, {
+                Email: formData.username,
+                Password: formData.password,
+            });
+
+            if (response.status === 200) {
+                setMessage("Login successful!");
+                // setUser(response.data);
+                dispatch(toggleForm(['login',false]));
+                console.log("Response of login : ",response.data)
           dispatch(login({
             email:formData.username,
             passw:formData.password
           }));
-            // const response = await axios.post(`${host}/api/user/login`, {
-            //     Email: formData.username,
-            //     Password: formData.password,
-            // });
-
-            // if (response.status === 200) {
-            //     setMessage("Login successful!");
-            //     setUser(response.data);
-            //     // localStorage.setItem("user", JSON.stringify(response.data));
-            //     setTimeout(() => onClose(), 1500);
-            // }
+                // localStorage.setItem("user", JSON.stringify(response.data));
+                setTimeout(() => onClose(), 1500);
+            }
         } 
         catch (error) {
             if (error.response) {

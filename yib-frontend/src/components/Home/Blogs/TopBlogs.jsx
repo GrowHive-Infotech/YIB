@@ -4,10 +4,19 @@ import { Link } from "react-router-dom";
 // import dayjs from 'dayjs';
 import { format } from 'date-fns';
 const fallbackImage = "https://images.pexels.com/photos/30327991/pexels-photo-30327991/free-photo-of-historic-fort-in-okzitanien-france.jpeg";
+const techImageMap = {
+  React: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+  Java: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
+  SQL: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
+  Azure: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg',
+  '.Net': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg',
+  CSharp: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg',
+};
 
+  
 
 const TopBlogs = () => {
-  const blogsTop=useSelector((state)=>state.blogs.blogs).slice(0,5);
+  const blogsTop=useSelector((state)=>state.blogs.blogs)?.slice(0,5);
 // console.log(blogsTop);
 
   const dispatch=useDispatch();
@@ -20,7 +29,7 @@ const TopBlogs = () => {
   return (
     <div className=" mt-3 border-2 border-black bg-slate-50 box-border  rounded-xl shadow p-6 ">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800 ">🔥 Top Blog Picks</h2>
+        <h2 className=" text-2xl lg:text-3xl font-bold text-gray-800 ">🔥 Top Blog Picks</h2>
 
         
         <Link
@@ -40,13 +49,13 @@ const TopBlogs = () => {
             
             <div className="shrink-0">
               <img
-                src={fallbackImage}
+                 src={techImageMap[blog.technology] || fallbackImage}
                 alt={blog.title}
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = fallbackImage;
                 }}
-                className="w-24 h-20 object-cover rounded-md"
+                className="w-3/4 h-24  rounded-md mb-4"
               />
             </div>
 
@@ -54,7 +63,7 @@ const TopBlogs = () => {
             <div className="flex-1 flex flex-col justify-between">
               <div>
                 <div
-                  className="text-lg font-semibold text-gray-800  no-underline hover:no-underline"
+                  className="text-sm md:text-lg font-semibold text-gray-800  no-underline hover:no-underline"
                 >
                   {blog.title}
                 </div>

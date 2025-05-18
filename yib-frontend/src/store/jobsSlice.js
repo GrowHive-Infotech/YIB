@@ -8,10 +8,14 @@ const loadJobs = async () => {
     const jobs = await fetchJobs();
     console.log(jobs); 
     localStorage.setItem('jobs',JSON.stringify(jobs));
+    let loadingStatusFromLS=Number.parseInt(localStorage.getItem('loadingStatus'));
+loadingStatusFromLS++;
+localStorage.setItem('loadingStatus',JSON.parse(loadingStatusFromLS));
+      console.log("jons");
 };
 await loadJobs();
 
-const jobsFromLocalStorage=JSON.parse(localStorage.getItem('jobs'));
+const jobsFromLocalStorage=getParsedLocalStorageItem('jobs');
 console.log("jobs frm ls : ",jobsFromLocalStorage)
 export const jobsSlice=createSlice({
     name:'jobs',
@@ -34,6 +38,18 @@ export const jobsSlice=createSlice({
 })
 
 export const {addSkills,removeSkills} =jobsSlice.actions;
+function getParsedLocalStorageItem(key) {
+  const item = localStorage.getItem(key);
+  if (item === null || item === 'undefined') {
+    return null;
+  }
+  try {
+    return JSON.parse(item);
+  } catch (e) {
+    console.error(`Error parsing localStorage key "${key}":`, e);
+    return null;
+  }
+}
 
 
 
