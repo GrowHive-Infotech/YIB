@@ -10,6 +10,10 @@ import { updateResume } from '../../store/resumeSlice';
 import MultiStepForm from './MultiStepForm';
 import { login } from '../../store/authSlice';
 import { toggleForm } from '../../store/modalSlice';
+import template1 from './template-preview/template1.png';
+import template2 from './template-preview/template2.png';
+
+import template3 from './template-preview/template3.png';
 import { toast,ToastContainer
 
  } from "react-toastify";
@@ -26,21 +30,21 @@ const TemplateSelector = () => {
       name: 'Modern Professional',
       component: Template1,
       description: 'Clean, corporate design with balanced sections',
-      previewImage: '/template-previews/modern-professional.jpg',
+      previewImage: template1,
     },
     {
       id: 'creative-minimalist',
       name: 'Creative Minimalist',
       component: Template2,
       description: 'Modern layout with creative typography',
-      previewImage: '/template-previews/creative-minimalist.jpg',
+      previewImage: template2,
     },
     {
       id: 'elegant-dark',
       name: 'Elegant Dark',
       component: Template3,
       description: 'Sophisticated dark theme with accent colors',
-      previewImage: '/template-previews/elegant-dark.jpg',
+      previewImage: template3,
     },
     {
       id: 'two-column',
@@ -115,7 +119,7 @@ const TemplateSelector = () => {
     : null;
 
   return (
-    <div className="max-w-screen-xl mx-auto p-6">
+    <div className=" max-w-screen-xl mx-auto md:p-6 p-0">
       <ToastContainer />
       {!isSubmitted ? (
         <MultiStepForm />
@@ -137,31 +141,30 @@ const TemplateSelector = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {templates.map((template) => (
-              <div
-                key={template.id}
-                className="cursor-pointer border border-gray-200 rounded-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                onClick={() => handleTemplateSelect(template.id)}
-              >
-                <div className="h-48 bg-gray-100 overflow-hidden">
-                  <img
-                    src={template.previewImage}
-                    alt={template.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.src = '/template-previews/default.jpg';
-                    }}
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {template.name}
-                  </h3>
-                  <p className="text-sm text-gray-500">{template.description}</p>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-5 py-2">
+{templates.map((template) => (
+  <div
+    key={template.id}
+    className="cursor-pointer border border-gray-300 rounded-lg overflow-hidden bg-white shadow-md hover:scale-105 hover:shadow-xl hover:border-gray-400 transition-all duration-300"
+    onClick={() => handleTemplateSelect(template.id)}
+  >
+    <div className="h-48 bg-gray-100 overflow-hidden">
+      <img
+        src={template.previewImage}
+        alt={template.name}
+        className=" w-full object-cover text-center"
+        onError={(e) => {
+          e.target.src = '/template-previews/default.jpg';
+        }}
+      />
+    </div>
+    <div className="p-4">
+      <h3 className="text-lg font-semibold text-gray-800">{template.name}</h3>
+      <p className="text-sm text-gray-500">{template.description}</p>
+    </div>
+  </div>
+))}
+
           </div>
         </div>
       ) : (
@@ -169,7 +172,7 @@ const TemplateSelector = () => {
           <div className="flex justify-between items-center p-6 bg-gray-50 border-b border-gray-200">
             <button
               onClick={() => setSelectedTemplate(null)}
-              className="text-white bg-slate-700 hover:bg-slate-800 inline-flex items-center m-1 p-2"
+              className="text-white bg-slate-700 hover:bg-slate-800 inline-flex items-center m-1 py-2 px-4"
             >
               <FaArrowLeft className="mr-2" />
               Back to Templates
@@ -206,7 +209,7 @@ const TemplateSelector = () => {
               ) : (
                 <button
                   onClick={generateResume}
-                  className="inline-flex items-center   rounded-lg text-white bg-slate-700 hover:bg-slate-800 m-1 p-2"
+                  className="inline-flex items-center   rounded-lg text-white bg-slate-700 hover:bg-slate-800 m-1 py-2 px-4"
                   disabled={isGenerating}
                 >
                   {isGenerating ? (

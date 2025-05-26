@@ -22,7 +22,7 @@ const AllJobsPage = () => {
     if (category !== 'skills') return [];
 
     // Calculate matched jobs based on the skills
-    return alljobs
+    return alljobs && alljobs
       .map((job) => {
         const jobSkills = job.skillsRequired;
         const matchedSkills = inputSkills.filter((skill) =>
@@ -50,16 +50,16 @@ const AllJobsPage = () => {
     const start = (currentPage - 1) * jobsPerPage;
     const end = start + jobsPerPage;
 
-    if (start >= jobs.length && jobs.length > 0) {
-      const lastPage = Math.ceil(jobs.length / jobsPerPage);
+    if (start >= jobs?.length && jobs?.length > 0) {
+      const lastPage = Math.ceil(jobs?.length / jobsPerPage);
       setSearchParams({ page: lastPage.toString() });
       return;
     }
 
-    setPaginatedJobs(jobs.slice(start, end));
+    setPaginatedJobs(jobs?.slice(start, end));
   }, [searchParams, setSearchParams, jobs]); // Dependencies now include jobs
 
-  const totalPages = Math.max(1, Math.ceil(jobs.length / jobsPerPage));
+  const totalPages = Math.max(1, Math.ceil(jobs?.length / jobsPerPage));
 
   const goToPage = (newPage) => {
     if (newPage < 1 || newPage > totalPages) return;
@@ -70,9 +70,9 @@ const AllJobsPage = () => {
     <div className="min-h-screen px-6 py-10 bg-gray-100">
       <h1 className="text-3xl font-bold mb-6">📚 Explore {category=='all'?'All Jobs' : 'Jobs Matched on Skills'}</h1>
 
-      {paginatedJobs.length > 0 ? (
+      {paginatedJobs?.length > 0 ? (
   <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-    {paginatedJobs.map((job) => (
+    {paginatedJobs && paginatedJobs.map((job) => (
       <JobCard key={job.jobUrl || job.id} job={job} />
     ))}
   </div>

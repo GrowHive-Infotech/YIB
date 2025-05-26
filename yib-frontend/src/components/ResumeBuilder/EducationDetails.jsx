@@ -299,13 +299,13 @@ const handleChange = (index, e) => {
          <button
           type="button"
           onClick={()=>stepUpdate('prev')}
-          className="px-6 py-2 text-gray-700 bg-gray-300 rounded hover:bg-gray-200"
+          className=" m-0 px-4 py-2 text-gray-700 bg-gray-300 rounded hover:bg-gray-200"
         >
           ← Back
         </button>
         <button
           type="submit"
-          className="px-6 py-2 bg-slate-800 text-white font-semibold rounded hover:bg-slate-700"
+          className="m-0 px-4 py-2  bg-slate-800 text-white font-semibold rounded hover:bg-slate-700"
         >
           Next: Work Experience →
         </button>

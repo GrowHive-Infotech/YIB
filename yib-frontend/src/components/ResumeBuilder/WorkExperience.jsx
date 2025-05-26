@@ -167,9 +167,68 @@ const handleChange = (index, e) => {
 
 
 
-
-
 <div className="flex md:flex-row flex-col md:gap-x-6 gap-y-3 md:items-center">
+  {/* Start Date */}
+  <div className="w-full pr-6">
+    <label className="block text-sm font-semibold text-slate-700 mb-1">
+      Start Date <span className="text-red-500">*</span>
+    </label>
+    <input
+      type="month"
+      name="startDate"
+      value={exp.startDate}
+      onChange={(e) => handleChange(index, e)}
+      className={`mb-0 box-border w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+        errors[index]?.startDate
+          ? 'border-red-500 focus:ring-red-300'
+          : 'border-gray-300 focus:ring-blue-300'
+      }`}
+    />
+    <p className="text-sm mt-1 min-h-[1.25rem] text-red-500">
+      {errors[index]?.startDate || '\u00A0'}
+    </p>
+  </div>
+
+  {/* End Date */}
+  <div className="w-full pr-6">
+    <label className="block text-sm font-semibold text-slate-700 mb-1">
+      End Date <span className="text-red-500">*</span>
+    </label>
+    <input
+      type="month"
+      name="endDate"
+      value={exp.endDate}
+      onChange={(e) => handleChange(index, e)}
+      disabled={exp.current}
+      className={`mb-0 box-border w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+        errors[index]?.endDate
+          ? 'border-red-500 focus:ring-red-300'
+          : 'border-gray-300 focus:ring-blue-300'
+      }`}
+    />
+    <p className="text-sm mt-1 min-h-[1.25rem] text-red-500">
+      {errors[index]?.endDate || '\u00A0'}
+    </p>
+  </div>
+
+  {/* Current Job Checkbox */}
+  <div className="w-full flex md:items-center items-end pt-5 mb-5">
+    <input
+      id={`current-${index}`}
+      type="checkbox"
+      name="current"
+      checked={exp.current}
+      onChange={(e) => handleChange(index, e)}
+      className="mr-2"
+    />
+    <label htmlFor={`current-${index}`} className="text-sm text-gray-700 mb-3">
+      I currently work here
+    </label>
+  </div>
+</div>
+
+
+{/* <div className="flex md:flex-row flex-col md:gap-x-6 gap-y-3 md:items-center">
             <div className="w-full pr-6">
               <label className="block text-sm font-semibold text-slate-700 mb-1">
                 Start Date <span className="text-red-500">*</span>
@@ -222,7 +281,7 @@ const handleChange = (index, e) => {
 </label>
 </div>
 
-          </div>
+          </div> */}
 
       <div className="mt-4 flex flex-col pr-6 gap-x-6">
       <label className="block text-sm font-semibold text-slate-700 mb-1">Description</label>

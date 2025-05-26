@@ -171,35 +171,44 @@ const stepUpdate=(mov)=>{
 
 
 
-      
-      <div className="flex flex-row gap-x-6 gap-y-4">
-        <div className="w-full pr-6">
-          <label className="block text-sm font-semibold text-slate-700 mb-1">Technologies Used</label>
-          <input
-            name="technologies"
-            type="text"
-            placeholder="e.g., React, Node.js, MongoDB"
-            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 border-gray-300 focus:ring-blue-300`}
-            value={proj.technologies}
-            onChange={(e) =>handleChange(index, e)}
-          />
-        </div>
 
 
-        <div className="w-full pr-6">
-          <label className="block text-sm font-semibold text-slate-700 mb-1">Project Link</label>
-          <input
-            name="link"
-            type="text"
-            placeholder='"https://yourproject.com"'
-            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 border-gray-300 focus:ring-blue-300`}
-            value={proj.link}
-            onChange={(e) =>handleChange(index, e)}
-          />
-        </div>
 
-        
-      </div>
+
+
+
+
+
+
+
+      <div className="flex md:flex-row flex-col md:gap-6 gap-y-5 ">
+        <div className="md:w-full flex flex-col pr-6 gap-x-6">
+          <label className="block text-sm font-semibold text-slate-700 mb-1">Technologies Used
+    </label>
+    <input
+      name="technologies"
+      type="text"
+      placeholder="e.g., React, Node.js, MongoDB"
+      className="w-full mb-0 px-4 py-2 border  rounded-lg focus:outline-none focus:ring-2 border-gray-300 focus:ring-blue-300"
+      value={proj.technologies}
+      onChange={(e) => handleChange(index, e)}
+    />
+  </div>
+
+  {/* Project Link */}
+  <div className="md:w-full flex flex-col pr-6 gap-x-6">
+          <label className="block text-sm font-semibold text-slate-700 mb-1">Project Link
+    </label>
+    <input
+      name="link"
+      type="text"
+      placeholder="https://yourproject.com"
+      className="w-full mb-0 px-4 py-2 border rounded-lg focus:outline-none  focus:ring-2 border-gray-300 focus:ring-blue-300"
+      value={proj.link}
+      onChange={(e) => handleChange(index, e)}
+    />
+  </div>
+</div>
 
 
     </div>

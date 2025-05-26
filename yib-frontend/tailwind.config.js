@@ -12,12 +12,15 @@ module.exports = {
     screens: {
       'sm': '640px',
       'md': '820px',
-      'mmd':'900px',
+      'mmd':'920px',
       'lg': '1024px',
       'xl': '1280px',
       '2xl': '1536px',
     },
     extend: {
+       fontFamily: {
+          'segoe-ui': ['"Segoe UI"', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif'],
+        },
       blur: {
         sm: '4px',
         md: '8px',

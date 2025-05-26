@@ -108,12 +108,12 @@ useEffect(()=>{
   const step=useSelector((state)=>state.resume.currentStep)
 
   return (
-    <div className="resume-builder-app">
+    <div className="font-segoe-ui bg-gray-100 min-h-[70%] py-8">
       {!submitted ? (
-        <div className="form-container">
-          <ProgressBar currentStep={step} totalSteps={6} />
+        <div className="max-w-5xl mx-auto  bg-white rounded-xl shadow-lg overflow-hidden">
+          <ProgressBar className='break-words' currentStep={step} totalSteps={6} />
           
-          <div className="form-content">
+          <div className="p-8 md:p-6">
             {step === 1 && (
               <PersonalInfo 
               />

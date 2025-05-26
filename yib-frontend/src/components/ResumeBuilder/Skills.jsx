@@ -101,7 +101,7 @@ const currentStep=useSelector((state)=>state.resume.currentStep);
           {skills.map((skill, index) => (
             <li
               key={index}
-              className="flex items-center gap-2 pl-3 pr-2 py-1 bg-slate-800 text-white rounded-md text-md"
+              className="flex items-center gap-3 pl-3 pr-2 py-1 bg-slate-800 text-white rounded-md text-md"
             >
               <span>{skill}</span>
               <button

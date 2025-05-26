@@ -2,14 +2,20 @@
 import React from 'react';
 import { FaPhone, FaEnvelope, FaHome, FaLinkedin, FaGithub } from 'react-icons/fa';
 
+import template1 from './template-preview/template1.png';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 const Template1 = ({ resumeData }) => {
     const {resumeId, personalInfo, educationDetails, experiences, skills, projects, activities } = resumeData;
     console.log(activities);
-    // const profilePic='https://images.pexels.com/photos/30327991/pexels-photo-30327991/free-photo-of-historic-fort-in-okzitanien-france.jpeg';
-  return (<>
+    function getCurrentPosition(experiences) {
+  const currentJob = experiences.find(exp => exp.current === true);
+  return currentJob ? currentJob.position : null;
+    }
+    
+  return (
+  <>
 
-<div className="hidden md:block min-h-screen bg-gray-100 p-4 font-sans">
+<div className="hidden mmd:block min-h-screen bg-gray-100 p-4 font-sans">
       <div className="max-w-5xl mx-auto bg-white shadow-md rounded-lg flex overflow-hidden">
         {/* Sidebar */}
         <div className="lg:w-1/3 w-[40%] bg-indigo-900 text-white p-6">
@@ -20,10 +26,10 @@ const Template1 = ({ resumeData }) => {
               alt="Profile"
               className="w-24 h-24 rounded-full mb-4"
             />
-            <h1 className="text-xl font-bold text-center">
+            <h1 className="text-xl my-1 py-0 font-bold text-center">
               {personalInfo.firstName} {personalInfo.lastName}
             </h1>
-            <p className="text-sm text-center mt-1">{personalInfo.role}</p>
+            <p className="text-sm text-center my-1 py-0">{getCurrentPosition(experiences)}</p>
           </div>
 
 {personalInfo.summary && (
@@ -124,11 +130,11 @@ const Template1 = ({ resumeData }) => {
           {skills && skills.length > 0 && (
   <section className="mt-6">
     <h2 className="textlg font-semibold text-white mb-4">Skills</h2>
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="flex flex-row  gap-4 flex-wrap justify-start items-center">
       {skills.map((skill, index) => (
         <div
           key={index}
-          className="px-2 py-1.5 flex items-center justify-center  bg-blue-100 text-black rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300"
+          className=" px-3  py-1.5 flex items-center justify-center  bg-slate-200 text-indigo-800 rounded-lg shadow-lg  transform transition-all duration-300"
         >
           {skill}
         </div>
@@ -250,20 +256,46 @@ const Template1 = ({ resumeData }) => {
 
 
 
-    <div className="h-[600px] flex flex-col justify-center items-center  md:hidden">
-  <div className="w-3/4 max-w-xs bg-white shadow-lg rounded-md overflow-hidden ">
+    {/* <div className="p-0 m-0 h-[500px] flex flex-col justify-center items-center  md:hidden">
+  <div className="w-full max-w-xs m-0 p-0 bg-white shadow-lg rounded-md overflow-hidden ">
     <img
     style={{filter: 'blur(3px)',
     transition: 'filter 0.3s ease-out',}}
       src={personalInfo.photo}
       alt="Resume Preview"
-      className="w-full h-auto object-cover "
+      className=" w-200 h-100 object-cover "
     />
   </div>
   <p className="mt-2 text-center text-gray-800 font-medium ">
     {personalInfo.firstName} {personalInfo.lastName} - {resumeId}
   </p>
-</div>
+</div> */}
+
+
+
+
+
+ <div
+      className="mmd:hidden relative h-[500px] w-full bg-cover bg-center bg-no-repeat "
+      style={{ backgroundImage: `url(${template1})`,
+      filter: 'blur(1px)',
+    transition: 'filter 0.3s ease-out',
+    
+    
+    }}
+    >
+      {/* Overlay */}
+      <div  className="absolute inset-0 bg-black bg-opacity-70 backdrop-blur-md flex items-center justify-center">
+        <div className="text-center text-white px-4">
+          <h1 className="text-4xl mmd:text-6xl font-bold mb-4">
+            {personalInfo.firstName} {personalInfo.lastName}
+          </h1>
+          <p className="text-xl mmd:text-2xl font-medium">
+            Resume ID: {resumeId}
+          </p>
+        </div>
+      </div>
+    </div>
 
     </>
   );
